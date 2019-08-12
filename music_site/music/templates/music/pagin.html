@@ -1,0 +1,32 @@
+{% block title %}
+All album
+{% endblock %}
+
+{% block main %}
+<div class="container-album">
+{% for album in contacts %}
+        <div class="album">
+            <div>
+                <p class="font">{{ album.name_album|upper }}</p>
+            </div>
+            <div class="paginator">
+                <span class="step-links">
+                    {% if album.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+
+                </span>
+                <div class="container-image">
+                   <img src="{{ album.image_album.url }}">
+                    <div class="middle">
+                        <div class="text">
+                            <button type="button" class="btn btn-dark">
+                                <a href="{% url 'music:SongAlbum' pk=album.id %}" style="text-decoration: none">Listen</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}
+</div>
+{% endblock %}
