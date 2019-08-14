@@ -31,8 +31,8 @@ ALLOWED_HOSTS = ['localhost','127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'music',
     'users',
+    'music',
     'sorl.thumbnail',
     'crispy_forms',
     'django.contrib.admin',
@@ -106,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
 
 
 # Internationalization
