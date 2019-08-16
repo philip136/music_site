@@ -8,9 +8,7 @@
 {% block main %}
 <div class="content-section">
     <div class="media">
-            {% thumbnail user.profile.avatar "250x250" crop="center" as img %}
-                <img class="rounded-circle account-img"  src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}">
-            {% endthumbnail %}
+             <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="300px">
         <div class="media-body">
             <h2 class="account-hedding"> {{ user.username }}</h2>
             <p class="text-secondary"> {{ user.email }}</p>
@@ -18,7 +16,7 @@
         </div>
     </div>
 </div>
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset class="form-group">
         <legend class="border-bottom mb-4">Register</legend>

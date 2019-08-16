@@ -134,6 +134,15 @@ LOGIN_REDIRECT_URL = 'music:album-list'
 LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'music:home'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# Need to encrypt
+EMAIL_HOST_USER = '*******'
+EMAIL_HOST_PASSWORD = '*******'
+# Need to encrypt
+
 
 CACHES = {
     'default':{

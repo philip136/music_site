@@ -23,8 +23,9 @@ import music.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include(users.urls), name='user'),
+    path('',include('django.contrib.auth.urls')),
     path('',include(music.urls),name='music'),
-    path('',include(users.urls),name='user')
 
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

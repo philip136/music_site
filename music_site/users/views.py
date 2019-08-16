@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -40,4 +41,6 @@ def profile(request):
                'profile_form': profile_form
                }
     return render(request,'users/profile.html',context)
+
+
 
