@@ -8,7 +8,11 @@
 {% block main %}
 <div class="content-section">
     <div class="media">
+        {% if user.profile.avatar == 'default.png' %}
+            <img class="rounded-circle account-img"  src="{% static 'music/image/empty.png' %}" width="300px;" height="300px">
+        {% else %}
              <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="300px">
+        {% endif %}
         <div class="media-body">
             <h2 class="account-hedding"> {{ user.username }}</h2>
             <p class="text-secondary"> {{ user.email }}</p>
@@ -27,6 +31,4 @@
         <button class="btn btn-dark" type="submit"> Update </button>
     </div>
 </form>
-
-
 {% endblock %}
