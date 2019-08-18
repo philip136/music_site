@@ -25,6 +25,11 @@ class AlbumManager(models.Manager):
         queryset = queryset[:limit]
         return queryset
 
+    def classification(self,genre_name):
+        queryset = self.get_queryset()
+        queryset = queryset.filter(genre=genre_name)
+        queryset = queryset.order_by('-release_date')
+        return queryset
 
 
 class Album(models.Model):

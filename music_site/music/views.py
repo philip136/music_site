@@ -26,7 +26,7 @@ class HomePage(TemplateView):
 
 class AlbumList(CachePageVaryOnCookieMixin,ListView):
     model = Album
-    paginate_by = 3
+    paginate_by = 6
 
     def get(self, request, *args, **kwargs):
         mixin_data = super(AlbumList, self)
@@ -49,6 +49,18 @@ class TopAlbum(CachePageVaryOnCookieMixin, ListView):
         queryset = Album.objects.top_album(limit=limit)
         cache.set(key,queryset)
         return queryset
+
+
+class Categories(CachePageVaryOnCookieMixin,ListView):
+    model = Album
+    template_name = 'music/categories.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Rap'] = self.model.objects.classification('Rap')
+        context['Rock'] = self.model.objects.classification('Rock')
+        return context
+
 
 
 class SongAlbum(DetailView):
