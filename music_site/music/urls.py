@@ -5,7 +5,10 @@ from .views import (AlbumList,
                     UpdateVote,
                     CreateVote,
                     TopAlbum,
-                    Categories)
+                    Categories,
+                    favourite,
+                    favourite_list
+                    )
 
 app_name = 'music'
 urlpatterns = [
@@ -18,5 +21,9 @@ urlpatterns = [
     path('album/categories/rap',Categories.as_view(),name='rap'),
     path('album/categories/rap/<int:pk>',SongAlbum.as_view(),name='RapAlbum'),
     path('album/categories/rock',Categories.as_view(),name='rock'),
-    path('album/categories/rock/<int:pk>',SongAlbum.as_view(),name='RockAlbum')
+    path('album/categories/rock/<int:pk>',SongAlbum.as_view(),name='RockAlbum'),
+    path('album/<int:pk>', SongAlbum.as_view(), name='search'),
+    path('album/<int:pk>/favourite', favourite, name='favourite'),
+    path('profile/favourite',favourite_list, name='favourite_list')
+
 ]

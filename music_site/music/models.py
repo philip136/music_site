@@ -1,7 +1,9 @@
 from django.db import models
 from sorl.thumbnail import ImageField
+from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.aggregates import Sum
+from django.urls import reverse
 
 
 
@@ -73,15 +75,18 @@ class Person(models.Model):
 
 
 
-
 class SongsAlbum(models.Model):
     person = models.ForeignKey(Person,on_delete=models.CASCADE)
     album = models.ForeignKey(Album,on_delete=models.CASCADE)
     name_song = models.CharField(max_length=140)
     file_song = models.FileField(upload_to='static/music/uploads/')
+    favourite = models.ManyToManyField(User, related_name='favourite', blank=True)
 
     def __str__(self):
         return self.name_song
+
+    def get_absolute_url(self):
+        return reverse("music:SongAlbum", args=[self.album.id])
 
 
 

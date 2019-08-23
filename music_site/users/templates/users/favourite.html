@@ -1,0 +1,47 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div id="container">
+        <div id="audio-img">
+            <img class="cover">
+        </div>
+        <div id="audio-player">
+            <div id="audio-info">
+                <span class="artist"></span> - <span class="title"></span>
+            </div>
+            <input id="volume" type="range" min="0" max="10" value="5">
+            <br>
+            <div id="audio-buttons">
+                <button id="prev"></button>
+                <button id="play"></button>
+                <button id="pause"></button>
+                <button id="stop"></button>
+                <button id="next"></button>
+            </div>
+            <div class="clearfix"></div>
+            <div id="tracker">
+                <div id="progressbar">
+                    <span id="progress"></span>
+                </div>
+                <span id="duration"></span>
+            </div>
+            <div class="clearfix"></div>
+            <ul id="playlist">
+                {% for song in favourite_songs %}
+                        <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ song.name_song }}">
+                            {{ song.name_song }}
+                        </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block jquery %}
+    <script src="{% static 'music/js/player.js' %}"></script>
+{% endblock %}

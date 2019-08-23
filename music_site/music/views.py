@@ -2,21 +2,24 @@ from django.views.generic import (DetailView,
                                   CreateView,
                                   TemplateView,
                                   ListView,
-                                  UpdateView)
+                                  UpdateView
+                                  )
 from django.core.exceptions import PermissionDenied
 from .models import (Album,
                      SongsAlbum,
                      Vote)
+from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.shortcuts import (render,
-                              redirect)
+                              redirect,
+                              get_object_or_404)
 from .forms import VoteForm
 from .mixins import CachePageVaryOnCookieMixin
 from django.core.cache import cache
+from django.db.models import Q
 import django
-
-
 
 
 
@@ -24,14 +27,22 @@ class HomePage(TemplateView):
     template_name = 'music/base.html'
 
 
+
 class AlbumList(CachePageVaryOnCookieMixin,ListView):
     model = Album
     paginate_by = 6
 
     def get(self, request, *args, **kwargs):
-        mixin_data = super(AlbumList, self)
-        pagination = mixin_data.pagination(self.paginate_by)
-        context = {'contacts': pagination}
+        search_query = self.request.GET.get('search', '')
+        if search_query:
+            album = self.model.objects.filter(Q(name_album__icontains=search_query) | Q(genre__icontains=search_query))
+        else:
+            album = self.model.objects.all()
+        contact_list = album.order_by('-release_date')
+        paginator = Paginator(contact_list, self.paginate_by)
+        page = self.request.GET.get('page')
+        contacts = paginator.get_page(page)
+        context = {'contacts': contacts}
         return render(request, 'music/album_list.html', context)
 
 
@@ -51,6 +62,7 @@ class TopAlbum(CachePageVaryOnCookieMixin, ListView):
         return queryset
 
 
+
 class Categories(CachePageVaryOnCookieMixin,ListView):
     model = Album
     template_name = 'music/categories.html'
@@ -66,11 +78,13 @@ class Categories(CachePageVaryOnCookieMixin,ListView):
 class SongAlbum(DetailView):
     queryset = Album.objects.all_with_related_persons_and_score()
     template_name = 'music/song.html'
+    is_favourite = False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['songs'] = SongsAlbum.objects.all()
         context['images'] = Album.objects.get(id=self.object.id)
+        song = SongsAlbum.objects.get(id=self.object.id)
         if self.request.user.is_authenticated:
             vote = Vote.objects.get_vote_or_unsaved_blank_vote(album=self.object,user=self.request.user)
             if vote.id:
@@ -79,15 +93,20 @@ class SongAlbum(DetailView):
                                             'album_id': vote.album.id,
                                             'pk': vote.id
                                         })
+
             else:
                 vote_form_url = reverse('music:CreateVote',
                                         kwargs={
                                             'album_id': self.object.id
                                         })
+            if song.favourite.filter(id=self.request.user.id).exists():
+                self.is_favourite = True
             vote_form = VoteForm(instance=vote)
             context['vote_form'] = vote_form
             context['vote_form_url'] = vote_form_url
+            context['is_favourite'] = self.is_favourite
         return context
+
 
 
 class CreateVote(LoginRequiredMixin,CreateView):
@@ -113,6 +132,7 @@ class CreateVote(LoginRequiredMixin,CreateView):
                                        'pk':album_id
                                    })
         return redirect(to=album_detail_url)
+
 
 
 class UpdateVote(LoginRequiredMixin, UpdateView):
@@ -142,6 +162,21 @@ class UpdateVote(LoginRequiredMixin, UpdateView):
         return redirect(
             to=album_detail_url)
 
+
+def favourite(request, pk):
+    song = get_object_or_404(SongsAlbum, pk=pk)
+    if song.favourite.filter(id=request.user.id).exists():
+        song.favourite.remove(request.user)
+    else:
+        song.favourite.add(request.user)
+    return HttpResponseRedirect(song.get_absolute_url())
+
+
+def favourite_list(request):
+    user = request.user
+    favourite_songs = user.favourite.all()
+    context = {'favourite_songs': favourite_songs}
+    return render(request, 'users/favourite.html', context)
 
 
 

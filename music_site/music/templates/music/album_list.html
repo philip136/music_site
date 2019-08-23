@@ -22,9 +22,11 @@ All album
                <img src="{{ contact.image_album.url }}">
                 <div class="middle">
                     <div class="text">
-                        <button type="button" class="btn btn-dark">
+                        <form method="post">
+                            <button type="button" class="btn btn-dark">
                             <a href="{% url 'music:SongAlbum' pk=contact.id %}" style="text-decoration: none">Listen</a>
                         </button>
+                        </form>
                     </div>
                 </div>
             </div>

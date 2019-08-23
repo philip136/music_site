@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Album,SongsAlbum,Person,Vote
+from .models import (Album,
+                     SongsAlbum,
+                     Person,
+                     Vote)
 
 
 admin.site.register(Album)

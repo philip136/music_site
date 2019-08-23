@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import Vote,Album
 
 
+
 class VoteForm(forms.ModelForm):
     user = forms.ModelChoiceField(widget=forms.HiddenInput,
                                   queryset=get_user_model().objects.all(),
@@ -19,4 +20,7 @@ class VoteForm(forms.ModelForm):
     class Meta:
         model = Vote
         fields = ('value','user','album')
+
+
+
 
