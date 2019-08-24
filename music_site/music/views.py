@@ -84,7 +84,7 @@ class SongAlbum(DetailView):
         context = super().get_context_data(**kwargs)
         context['songs'] = SongsAlbum.objects.all()
         context['images'] = Album.objects.get(id=self.object.id)
-        song = SongsAlbum.objects.get(id=self.object.id)
+        songs = SongsAlbum.objects.filter(album__name_album=self.object)
         if self.request.user.is_authenticated:
             vote = Vote.objects.get_vote_or_unsaved_blank_vote(album=self.object,user=self.request.user)
             if vote.id:
@@ -99,8 +99,9 @@ class SongAlbum(DetailView):
                                         kwargs={
                                             'album_id': self.object.id
                                         })
-            if song.favourite.filter(id=self.request.user.id).exists():
-                self.is_favourite = True
+            for s in songs:
+                if s.favourite.filter(id=self.request.user.id).exists():
+                    self.is_favourite = True
             vote_form = VoteForm(instance=vote)
             context['vote_form'] = vote_form
             context['vote_form_url'] = vote_form_url
