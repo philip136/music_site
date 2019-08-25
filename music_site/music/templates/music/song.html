@@ -7,14 +7,17 @@
 {% endblock %}
 
 {% block title %}
-{{ images }}
+    Album - {{ album_id }}
 {% endblock %}
 
 {% block main %}
-
-<div id="container">
+    <div id="bg">
+        <div id="blackLayer"></div>
+        <img src="{{ album_id.image_album.url }}"/>
+    </div>
+    <div id="container">
     <div id="audio-img">
-        <img class="cover">
+        <img src="{{ album_id.image_album.url }}">
     </div>
     <div id="audio-player">
         <div id="audio-info">
@@ -36,11 +39,10 @@
             </div>
             <span id="duration"></span>
         </div>
-
         <div class="clearfix"></div>
         <ul id="playlist">
             {% for song in songs %}
-                {% if song.album.id == images.id %}
+                {% if song.album.id == album_id.id %}
                     <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ album.author_album }}">
                         {{ song.name_song }}
                         {% if is_favourite %}
@@ -56,12 +58,11 @@
                 {% endif %}
             {% endfor %}
         </ul>
-
     </div>
-</div>
-<div>
-    <div>
-        {% if vote_form %}
+    </div>
+    <div id="vote">
+        <div class="form">
+            {% if vote_form %}
             <form method="post" action="{{ vote_form_url }}">
                 {% csrf_token %}
                 {{ vote_form.as_p }}
@@ -72,12 +73,11 @@
                 <a href="{% url 'users:login' %}">Log in please</a>
             </p>
         {% endif %}
-        <div>
             <h3> Score: {{ object.score|default_if_none:'TBD' }}</h3>
         </div>
     </div>
-</div>
-</div>
+
+
 {% endblock %}
 {% block jquery %}
 <script src="{% static 'music/js/player.js' %}"></script>

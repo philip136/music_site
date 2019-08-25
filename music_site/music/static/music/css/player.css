@@ -7,20 +7,29 @@
 
 .clearfix{
     clear:both;
+}
 
+.form{
+    color:#fff;
+    width: 180px;
+    border-radius: 15px;
+    border: 1px solid;
+    padding: 25px;
+    position:absolute;
+    bottom: 300px;
+    left: 8%;
+    z-index: 100;
 }
 
 #container{
-    position: relative;
-    left: 350px;
-    width:350px;
-    min-height:400px;
-    overflow: auto;
-    margin: 30px auto;
-    border: #333 solid 2px;
-    -moz-border-radius:40px;
-    -webkit-border-radius:40px;
-    border-radius:20px;
+    width: 25%;
+    background-color: #fff;
+    border-radius: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 999;
 }
 
 #audio-img{
@@ -30,11 +39,6 @@
     margin-bottom: 15px;
 }
 
-.cover{
-    width:100%;
-    z-index:1;
-
-}
 
 #audio-info{
     text-align:center;
@@ -61,7 +65,7 @@ input#volume::-webkit-slider-thumb{
 }
 
 #audio-buttons{
-    width: 90%;
+    width: 90%
     display:block;
     margin:15px auto;
     margin-left: 25px;
@@ -133,18 +137,15 @@ button#next{
     height:10px;
     display:inline-block;
     position: absolute;
-    top:9px;
-    left:8px;
+
 }
 
 #duration{
     position:absolute;
-    top:0px;
+    top:0;
     right:10px;
     padding:4px 8px;
     background:#000;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
     border-radius:5px;
 }
 
@@ -153,6 +154,35 @@ button#next{
     width:100%;
 
 }
-
-
+#bg{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+}
+#bg img{
+    height: 120vh;
+    width: 105%;
+    -webkit-filter:blur(20px);
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 5;
+}
+#blackLayer{
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,.2);
+    position: absolute;
+    z-index: 99;
+}
+#audio-img img{
+    height:200px;
+    width:100%;
+    margin-top: -7px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
 

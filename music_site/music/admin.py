@@ -9,3 +9,4 @@ admin.site.register(Album)
 admin.site.register(SongsAlbum)
 admin.site.register(Person)
 admin.site.register(Vote)
+

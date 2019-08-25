@@ -1,5 +1,5 @@
 var audio;
-
+var default_volume = 0.5
 //Pause button
 $('#pause').hide();
 
@@ -15,6 +15,8 @@ function initAudio(element){
 
     // Create Audio
     audio = new Audio(full_path + song);
+    audio.volume = default_volume;
+
 
     if (!audio.currentTime){
         $('#duration').html('0:00');
@@ -45,7 +47,6 @@ $('#pause').click(function(){
     $('#pause').hide();
     $('#play').show();
     $('#duration').fadeIn(400);
-
 });
 
 //Stop button
@@ -56,6 +57,7 @@ $('#stop').click(function(){
     $('#play').show();
     $('#duration').fadeOut(400);
 });
+
 
 //Time duration
 function showDuration(){
@@ -69,11 +71,12 @@ function showDuration(){
         $('#duration').html(minute + ':' + second);
         var value = 0;
         if (audio.currentTime > 0){
-            value = Math.floor((100 / audio.duration ) * audio.currentTime);
+            value = Math.floor((100 / audio.duration) * audio.currentTime)
         }
         $('#progress').css('width',value+'%');
     })
 }
+
 
 //Next button
 $('#next').click(function(){
@@ -82,9 +85,14 @@ $('#next').click(function(){
     if (next.length == 0){
         next = $('#playlist li.first-child');
     }
+    if($('#play').is(':visible')){
+        $('#play').hide();
+        $('#pause').show();
+    }
     initAudio(next);
     audio.play();
     showDuration();
+
 });
 
 //Prev button
@@ -94,6 +102,10 @@ $('#prev').click(function(){
     if (prev.length == 0){
         prev = $('#playlist li.last-child');
     }
+    if($('#play').is(':visible')){
+        $('#play').hide();
+        $('#pause').show();
+    }
     initAudio(prev);
     audio.play();
     showDuration();
@@ -101,7 +113,8 @@ $('#prev').click(function(){
 
 //Volume settings
 $('#volume').change(function(){
-    audio.volume = parseFloat(this.value / 10);
+    default_volume = parseFloat(this.value / 10);
+    audio.volume = default_volume;
 })
 
 //Play always
@@ -114,5 +127,22 @@ $(audio).on('ended',function(){
     initAudio(next);
     audio.play();
     showDuration();
+});
+
+//Rewind
+$("#progressbar").mouseup(function(e){
+    var leftOffset = e.pageX - $(this).offset().left;
+    var songPercents = leftOffset / $('#progressbar').width();
+    audio.currentTime = parseFloat(songPercents * audio.duration);
+});
+
+//Click for playing
+$('#playlist li').click(function(){
+    audio.pause();
+    initAudio($(this));
+    audio.play();
+    showDuration
+    $('#play').hide();
+    $('#pause').show();
 });
 
