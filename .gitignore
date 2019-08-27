@@ -1,5 +1,5 @@
 #idea folder
-idea/
+.idea/
 #virtual environment
 venv/
 #all .mp3 files which was uploaded with database
@@ -10,3 +10,5 @@ venv/
 *.pyc
 #all .xml files
 *.xml
+#admin statics files
+music_site/static/admin/
