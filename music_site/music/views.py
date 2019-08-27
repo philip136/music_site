@@ -20,12 +20,13 @@ from .mixins import CachePageVaryOnCookieMixin
 from django.core.cache import cache
 from django.db.models import Q
 import django
-import json
 
 
+#on home page added last added music albums for last week
 
 class HomePage(TemplateView):
     template_name = 'music/base.html'
+
 
 
 
@@ -36,7 +37,8 @@ class AlbumList(CachePageVaryOnCookieMixin,ListView):
     def get(self, request, *args, **kwargs):
         search_query = self.request.GET.get('search', '')
         if search_query:
-            album = self.model.objects.filter(Q(name_album__icontains=search_query) | Q(genre__icontains=search_query))
+            album = self.model.objects.filter(Q(name_album__icontains=search_query) | Q(genre__icontains=search_query) |
+                                              Q(author_album__icontains=search_query))
         else:
             album = self.model.objects.all()
         contact_list = album.order_by('-release_date')
