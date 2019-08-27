@@ -1,0 +1,12 @@
+#idea folder
+idea/
+#virtual environment
+venv/
+#all .mp3 files which was uploaded with database
+*.mp3
+#png file
+*.png
+#all .pyc files
+*.pyc
+#all .xml files
+*.xml

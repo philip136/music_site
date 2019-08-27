@@ -29,7 +29,6 @@ class HomePage(TemplateView):
 
 
 
-
 class AlbumList(CachePageVaryOnCookieMixin,ListView):
     model = Album
     paginate_by = 6

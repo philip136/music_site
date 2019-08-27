@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from django.contrib.auth.models import User
 
 
+
 class FavouriteList(TestCase):
     #test for url profile/favourite
     def test_root_url_resolves_to_favourite_list_view(self):
@@ -20,3 +21,5 @@ class FavouriteList(TestCase):
         html = response.content.decode('utf8')
         self.assertTrue(html.startswith('<!doctype html>'))
         self.assertIn('<title>Favourite Music</title>', html)
+
+
