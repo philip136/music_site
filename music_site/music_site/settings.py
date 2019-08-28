@@ -25,7 +25,7 @@ SECRET_KEY = 'id2c3yutn+v)-m^rru7-tv3(imsv@s5-)7do$=8uba=p#!$wzm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,17 +77,6 @@ WSGI_APPLICATION = 'music_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydb',
-        'PASSWORD': 'admin',
-        'USER': 'postgres',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -106,6 +95,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
 
 
 
@@ -134,16 +126,6 @@ LOGIN_REDIRECT_URL = 'music:album-list'
 LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'music:home'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-# Need to encrypt
-EMAIL_HOST_USER = '********'
-EMAIL_HOST_PASSWORD = '********'
-# Need to encrypt
-
-
 CACHES = {
     'default':{
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -154,3 +136,7 @@ CACHES = {
 
 CSRF_USE_SESSIONS = True
 
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *

@@ -25,7 +25,17 @@ import django
 #on home page added last added music albums for last week
 
 class HomePage(TemplateView):
-    template_name = 'music/base.html'
+    template_name = 'music/home_page.html'
+    model = Album
+
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['image'] = self.model.objects.all()
+        return context
 
 
 

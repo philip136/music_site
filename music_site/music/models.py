@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db.models.aggregates import Sum
 from django.urls import reverse
+from django.utils import timezone
+import datetime
 
 
 
@@ -52,6 +54,9 @@ class Album(models.Model):
 
     def __str__(self):
         return '{}'.format(self.name_album)
+
+    def was_published_recently(self):
+        return self.release_date >= (timezone.now() - datetime.timedelta(days=7))
 
 
 
