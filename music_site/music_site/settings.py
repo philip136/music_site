@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'music',
     'sorl.thumbnail',
     'crispy_forms',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,6 +127,7 @@ LOGIN_REDIRECT_URL = 'music:album-list'
 LOGIN_URL = 'users:login'
 LOGOUT_REDIRECT_URL = 'music:home'
 
+
 CACHES = {
     'default':{
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -136,7 +138,4 @@ CACHES = {
 
 CSRF_USE_SESSIONS = True
 
-try:
-    from .local_settings import *
-except ImportError:
-    from .prod_settings import *
+from .local_settings import *

@@ -43,6 +43,7 @@ class Album(models.Model):
         (NOT_RATED, 'NR - Not Rated'),
         (RATED, 'R - Rated'),
     )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     author_album = models.CharField(max_length=100)
     name_album = models.CharField(max_length=140)
     release_date = models.DateTimeField(null=True)

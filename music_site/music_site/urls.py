@@ -19,6 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 import users.urls
 import music.urls
+import users.comments.urls
+
 
 
 urlpatterns = [
@@ -26,9 +28,7 @@ urlpatterns = [
     path('', include(users.urls), name='user'),
     path('', include('django.contrib.auth.urls')),
     path('', include(music.urls), name='music'),
-
-
-
+    path('api/albums/', include(users.comments.urls), name='albums-api'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
