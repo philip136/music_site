@@ -10,6 +10,7 @@ from rest_framework.permissions import (AllowAny,
                                         IsAuthenticatedOrReadOnly,
                                         )
 from music.models import Album
+from django.shortcuts import get_object_or_404
 from .serializers import (AlbumSerializer,
                           AlbumDetailSerializer,
                           AlbumCreateSerializer,
@@ -39,7 +40,7 @@ class AlbumCreateAPIView(CreateAPIView):
 class AlbumUpdateAPIView(UpdateAPIView):
     queryset = Album.objects.all()
     serializer_class = AlbumUpdateSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)

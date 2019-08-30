@@ -7,7 +7,8 @@ from django.views.generic import (DetailView,
 from django.core.exceptions import PermissionDenied
 from .models import (Album,
                      SongsAlbum,
-                     Vote)
+                     Vote,
+                     Comments)
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,7 +16,8 @@ from django.urls import reverse
 from django.shortcuts import (render,
                               redirect,
                               get_object_or_404)
-from .forms import VoteForm
+from .forms import (VoteForm,
+                    CommentsForm)
 from .mixins import CachePageVaryOnCookieMixin
 from django.core.cache import cache
 from django.db.models import Q
@@ -91,12 +93,22 @@ class SongAlbum(DetailView):
     queryset = Album.objects.all_with_related_persons_and_score()
     template_name = 'music/song.html'
     is_favourite = False
-    list_json_songs = []
+
+    def post(self, request, *args, **kwargs):
+        form = CommentsForm()
+        if form.is_valid():
+            comments = form.save(commit=False)
+            comments.save()
+            return redirect('music:album-list')
+        else:
+            form = CommentsForm()
+        return render(request, self.template_name)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['songs'] = SongsAlbum.objects.all()
         context['album_id'] = Album.objects.get(id=self.object.id)
+        context['comments'] = Comments.objects.all()
         songs = SongsAlbum.objects.filter(album__name_album=self.object)
         if self.request.user.is_authenticated:
             vote = Vote.objects.get_vote_or_unsaved_blank_vote(album=self.object,user=self.request.user)

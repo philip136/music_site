@@ -76,6 +76,19 @@
             <h3> Score: {{ object.score|default_if_none:'TBD' }}</h3>
         </div>
     </div>
+ {% for comment in comments %}
+    <p> album</p>
+    {% if comment.album.id == album_id.id %}
+        <div id="comments">
+            <div class="date">{{ comment.publish_date }}</div>
+                <strong> {{ comment.author }}</strong>
+                <p>
+                    {{ comment.text|linebreaks }}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+ {% endfor %}
 
 
 {% endblock %}

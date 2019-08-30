@@ -43,7 +43,6 @@ class Album(models.Model):
         (NOT_RATED, 'NR - Not Rated'),
         (RATED, 'R - Rated'),
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     author_album = models.CharField(max_length=100)
     name_album = models.CharField(max_length=140)
     release_date = models.DateTimeField(null=True)
@@ -120,8 +119,20 @@ class Vote(models.Model):
     objects = VoteManager()
 
 
+class Comments(models.Model):
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    post = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(max_length=500)
+    publish_date = models.DateTimeField(default=timezone.now())
+    like_comment = models.BooleanField(default=False)
 
+    def like(self):
+        self.like_comment = True
+        self.save()
 
+    def __str__(self):
+        return self.text
 
 
 
