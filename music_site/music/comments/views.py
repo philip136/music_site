@@ -9,7 +9,7 @@ from rest_framework.permissions import (AllowAny,
                                         IsAuthenticated,
                                         IsAuthenticatedOrReadOnly,
                                         )
-from music.models import Album
+from music.models import Comments
 from django.shortcuts import get_object_or_404
 from .serializers import (AlbumSerializer,
                           AlbumDetailSerializer,
@@ -19,35 +19,35 @@ from .permission import IsOwnerOrReadOnly
 
 
 class AlbumAPIView(ListAPIView):
-    queryset = Album.objects.all().order_by('-release_date')
+    queryset = Comments.objects.all().order_by('-publish_date')
     serializer_class = AlbumSerializer
 
 
 class DetailAlbumAPIView(RetrieveAPIView):
-    queryset = Album.objects.all()
+    queryset = Comments.objects.all()
     serializer_class = AlbumDetailSerializer
 
 
 class AlbumCreateAPIView(CreateAPIView):
-    queryset = Album.objects.all()
+    queryset = Comments.objects.all()
     serializer_class = AlbumCreateSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(author=self.request.user)
 
 
 class AlbumUpdateAPIView(UpdateAPIView):
-    queryset = Album.objects.all()
+    queryset = Comments.objects.all()
     serializer_class = AlbumUpdateSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
 
     def perform_update(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(author=self.request.user)
 
 
 class AlbumDeleteAPIView(DestroyAPIView):
-    queryset = Album.objects.all()
+    queryset = Comments.objects.all()
     serializer_class = AlbumDetailSerializer
 
 

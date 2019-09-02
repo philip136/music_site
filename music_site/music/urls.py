@@ -7,7 +7,8 @@ from .views import (AlbumList,
                     TopAlbum,
                     Categories,
                     favourite,
-                    favourite_list
+                    favourite_list,
+                    Test
                     )
 
 app_name = 'music'
@@ -24,6 +25,7 @@ urlpatterns = [
     path('album/categories/rock/<int:pk>',SongAlbum.as_view(),name='RockAlbum'),
     path('album/<int:pk>', SongAlbum.as_view(), name='search'),
     path('album/<int:pk>/favourite', favourite, name='favourite'),
-    path('profile/favourite',favourite_list, name='favourite_list')
+    path('profile/favourite',favourite_list, name='favourite_list'),
+    path('test', Test.as_view(), name='test')
 
 ]

@@ -126,6 +126,7 @@ class Comments(models.Model):
     text = models.TextField(max_length=500)
     publish_date = models.DateTimeField(default=timezone.now())
     like_comment = models.BooleanField(default=False)
+    done = models.BooleanField(default=True)
 
     def like(self):
         self.like_comment = True

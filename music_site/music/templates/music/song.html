@@ -89,9 +89,13 @@
         </div>
     {% endif %}
  {% endfor %}
+    <div id="leave_comments">
+
+    </div>
 
 
 {% endblock %}
 {% block jquery %}
-<script src="{% static 'music/js/player.js' %}"></script>
+    <script src="{% static 'music/js/player.js' %}"></script>
+    <script src="{% static 'music/js/comment.js' %}"></script>
 {% endblock %}

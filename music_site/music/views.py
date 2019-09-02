@@ -94,16 +94,6 @@ class SongAlbum(DetailView):
     template_name = 'music/song.html'
     is_favourite = False
 
-    def post(self, request, *args, **kwargs):
-        form = CommentsForm()
-        if form.is_valid():
-            comments = form.save(commit=False)
-            comments.save()
-            return redirect('music:album-list')
-        else:
-            form = CommentsForm()
-        return render(request, self.template_name)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['songs'] = SongsAlbum.objects.all()
@@ -203,6 +193,10 @@ def favourite_list(request):
     favourite_songs = user.favourite.all()
     context = {'favourite_songs': favourite_songs}
     return render(request, 'users/favourite.html', context)
+
+
+class Test(TemplateView):
+    template_name = 'music/comments.html'
 
 
 
