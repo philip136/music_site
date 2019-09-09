@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from music.models import Comments
+from music.models import Comments, Album
 
 
-class AlbumSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = [
@@ -15,17 +15,7 @@ class AlbumSerializer(serializers.ModelSerializer):
                   ]
 
 
-class AlbumDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comments
-        fields = [
-                    'album',
-                    'post',
-                    'author',
-                    'text',
-                  ]
-
-class AlbumCreateSerializer(serializers.ModelSerializer):
+class CommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = [
@@ -36,7 +26,7 @@ class AlbumCreateSerializer(serializers.ModelSerializer):
                   ]
 
 
-class AlbumUpdateSerializer(serializers.ModelSerializer):
+class CommentUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
         fields = [
@@ -44,6 +34,3 @@ class AlbumUpdateSerializer(serializers.ModelSerializer):
                    'post',
                    'text',
                   ]
-
-
-

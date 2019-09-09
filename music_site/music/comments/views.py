@@ -9,45 +9,41 @@ from rest_framework.permissions import (AllowAny,
                                         IsAuthenticated,
                                         IsAuthenticatedOrReadOnly,
                                         )
-from music.models import Comments
-from django.shortcuts import get_object_or_404
-from .serializers import (AlbumSerializer,
-                          AlbumDetailSerializer,
-                          AlbumCreateSerializer,
-                          AlbumUpdateSerializer)
-from .permission import IsOwnerOrReadOnly
+from music.models import (Comments,
+                          Album)
+from rest_framework.response import Response
+from rest_framework import status
+from .serializer import (CommentSerializer,
+                        CommentCreateSerializer,
+                        CommentUpdateSerializer)
 
 
-class AlbumAPIView(ListAPIView):
+class CommentAPIView(ListAPIView):
     queryset = Comments.objects.all().order_by('-publish_date')
-    serializer_class = AlbumSerializer
+    serializer_class = CommentSerializer
 
 
-class DetailAlbumAPIView(RetrieveAPIView):
+class CommentCreateAPIView(CreateAPIView):
     queryset = Comments.objects.all()
-    serializer_class = AlbumDetailSerializer
-
-
-class AlbumCreateAPIView(CreateAPIView):
-    queryset = Comments.objects.all()
-    serializer_class = AlbumCreateSerializer
+    serializer_class = CommentCreateSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class AlbumUpdateAPIView(UpdateAPIView):
+class CommentUpdateAPIView(UpdateAPIView):
     queryset = Comments.objects.all()
-    serializer_class = AlbumUpdateSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    serializer_class = CommentUpdateSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_update(self, serializer):
         serializer.save(author=self.request.user)
 
 
-class AlbumDeleteAPIView(DestroyAPIView):
-    queryset = Comments.objects.all()
-    serializer_class = AlbumDetailSerializer
 
 

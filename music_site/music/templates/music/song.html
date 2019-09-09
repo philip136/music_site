@@ -2,6 +2,7 @@
 {% load static %}
 
 
+
 {% block style %}
 <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
 {% endblock %}
@@ -89,13 +90,21 @@
         </div>
     {% endif %}
  {% endfor %}
-    <div id="leave_comments">
+<div id="comments">
+    <form id="post_form" method="post" action="/api/albums/create/">
+        <input type="hidden" name="csrfmiddlewaretoken">
+        <input type="hidden" id="author" value="{{ user.id }}">
+        <input type="hidden" id="album" value="{{ album_id.id }}">
+        <input type="text" id="post"></br>
+        <input type="text" id="text"></br>
+        <button>submit</button>
+    </form>
+</div>
 
-    </div>
 
 
 {% endblock %}
 {% block jquery %}
     <script src="{% static 'music/js/player.js' %}"></script>
-    <script src="{% static 'music/js/comment.js' %}"></script>
+    <script src="{% static 'music/js/comment_ajax.js' %}"></script>
 {% endblock %}

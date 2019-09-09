@@ -120,17 +120,12 @@ class Vote(models.Model):
 
 
 class Comments(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='comments')
     post = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField(max_length=500)
     publish_date = models.DateTimeField(default=timezone.now())
-    like_comment = models.BooleanField(default=False)
-    done = models.BooleanField(default=True)
 
-    def like(self):
-        self.like_comment = True
-        self.save()
 
     def __str__(self):
         return self.text

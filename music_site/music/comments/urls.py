@@ -1,16 +1,12 @@
 from django.urls import path
-from .views import (AlbumAPIView,
-                    DetailAlbumAPIView,
-                    AlbumUpdateAPIView,
-                    AlbumDeleteAPIView,
-                    AlbumCreateAPIView,
-                    )
+from .views import (CommentAPIView,
+                    CommentCreateAPIView,
+                    CommentUpdateAPIView)
+
 
 
 urlpatterns = [
-    path('', AlbumAPIView.as_view(), name='albums'),
-    path('<int:pk>/', DetailAlbumAPIView.as_view(), name='detail'),
-    path('create/', AlbumCreateAPIView.as_view(), name='create'),
-    path('<int:pk>/edit/', AlbumUpdateAPIView.as_view(), name='update'),
-    path('<int:pk>/delete/', AlbumDeleteAPIView.as_view(), name='delete'),
+    path('', CommentAPIView.as_view(), name='albums'),
+    path('create/', CommentCreateAPIView.as_view(), name='create'),
+    path('<int:pk>/edit/', CommentUpdateAPIView.as_view(), name='update')
 ]
