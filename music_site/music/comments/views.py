@@ -36,13 +36,24 @@ class CommentCreateAPIView(CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
+# Fix this. Create new object, but must update olded object
 class CommentUpdateAPIView(UpdateAPIView):
     queryset = Comments.objects.all()
     serializer_class = CommentUpdateSerializer
     permission_classes = [IsAuthenticated]
 
-    def perform_update(self, serializer):
-        serializer.save(author=self.request.user)
+    def put(self, request, *args, **kwargs):
+        try:
+            obj = Comments.objects.get(id=request.user.id)
+        except:
+            obj = None
+
+        serializer = self.serializer_class(obj, data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+
 
 
 

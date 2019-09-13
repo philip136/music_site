@@ -16,8 +16,7 @@ from django.urls import reverse
 from django.shortcuts import (render,
                               redirect,
                               get_object_or_404)
-from .forms import (VoteForm,
-                    CommentsForm)
+from .forms import (VoteForm)
 from .mixins import CachePageVaryOnCookieMixin
 from django.core.cache import cache
 from django.db.models import Q

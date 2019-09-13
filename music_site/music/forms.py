@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from .models import (Vote,
-                     Album,
-                     Comments)
+                     Album)
 
 
 
@@ -24,10 +23,7 @@ class VoteForm(forms.ModelForm):
         fields = ('value', 'user', 'album')
 
 
-class CommentsForm(forms.ModelForm):
-    class Meta:
-        model = Comments
-        fields = ('post', 'text')
+
 
 
 
