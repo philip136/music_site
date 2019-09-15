@@ -33,3 +33,14 @@ class CommentUpdateSerializer(serializers.ModelSerializer):
                    'post',
                    'text',
                   ]
+
+
+class CommentDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comments
+        fields = [
+            'album',
+            'post',
+            'author',
+            'text',
+        ]

@@ -80,19 +80,21 @@
  {% for comment in comments %}
     {% if comment.album.id == album_id.id %}
         <div id="comments">
+            <div class="delete-comment">
+                <button class="btn_del" value="{{ comment.id }}">Delete</button>
+            </div>
             <div class="date">{{ comment.publish_date }}</div>
                 <strong> {{ comment.author }}</strong>
                 <p class="comment_text">
                     {{ comment.text|linebreaks }}
                 </p>
                 <div>
-                    <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit/">
+                    <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit">
+                        <input type="hidden" id="comment_id" value="{{ comment.id }}">
                         <input type="hidden" name="csrfmiddlewaretoken">
                         <input type="text" class="input_Text_post"></br>
                         <input type="text" class="input_Text_text"></br>
-                        <button class="button_edit" value="{{ comment.id }}">
-                            Send
-                        </button>
+                        <button> change </button>
                     </form>
                 </div>
             </div>
@@ -106,14 +108,14 @@
         <input type="hidden" id="album" value="{{ album_id.id }}">
         <input type="text" id="post"></br>
         <input type="text" id="text"></br>
-        <button>submit</button>
+        <button>send</button>
     </form>
 </div>
-
-
-
 {% endblock %}
+
 {% block jquery %}
     <script src="{% static 'music/js/player.js' %}"></script>
-    <script src="{% static 'music/js/comment_ajax.js' %}"></script>
+    <script src="{% static 'music/js/comment_create.js' %}"></script>
+    <script src="{% static 'music/js/comment_edit.js' %}"></script>
+    <script src="{% static 'music/js/comment_delete.js' %}"></script>
 {% endblock %}
