@@ -79,22 +79,22 @@
     </div>
  {% for comment in comments %}
     {% if comment.album.id == album_id.id %}
-        <div id="comments">
+        <div id="comments" value="{{ comment.id }}">
             <div class="delete-comment">
                 <button class="btn_del" value="{{ comment.id }}">Delete</button>
             </div>
             <div class="date">{{ comment.publish_date }}</div>
-                <strong> {{ comment.author }}</strong>
-                <p class="comment_text">
+                <strong class="comment_author"> {{ comment.author }}</strong>
+                <p id="comment_text">
                     {{ comment.text|linebreaks }}
                 </p>
                 <div>
                     <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit">
                         <input type="hidden" id="comment_id" value="{{ comment.id }}">
                         <input type="hidden" name="csrfmiddlewaretoken">
-                        <input type="text" class="input_Text_post"></br>
-                        <input type="text" class="input_Text_text"></br>
-                        <button> change </button>
+                        <input type="text" class="form-control" id="input_Text_post" placeholder="Change post for comment"></br>
+                        <input type="text" class="form-control" id="input_Text_text" placeholder="Change text for comment"></br>
+                        <button class="btn btn-info"> Change </button>
                     </form>
                 </div>
             </div>
@@ -106,9 +106,9 @@
         <input type="hidden" name="csrfmiddlewaretoken">
         <input type="hidden" id="author" value="{{ user.id }}">
         <input type="hidden" id="album" value="{{ album_id.id }}">
-        <input type="text" id="post"></br>
-        <input type="text" id="text"></br>
-        <button>send</button>
+        <input type="text" class="form-control" id="post" placeholder="Post"></br>
+        <input type="text" class='form-control' id="text" placeholder="Text"></br>
+        <button class="btn btn-info">Send</button>
     </form>
 </div>
 {% endblock %}

@@ -9,11 +9,11 @@ $(document).ready(function() {
             url: 'http://localhost:8000/api/albums/' + comment_id + '/edit/',
             headers: {"X-CSRFToken": $csrf_token},
             data: {
-                'post': $('.input_Text_post').val(),
-                'text': $('.input_Text_text').val(),
+                'post': $('#input_Text_post').val(),
+                'text': $('#input_Text_text').val(),
             },
             success: function(data){
-                console.log(data);
+                document.getElementById("comment_text").innerHTML=data.text;
             }
         });
     });

@@ -8,7 +8,7 @@ $(document).ready(function(){
             url: 'http://localhost:8000/api/albums/' + comment_id + '/delete/',
             headers: {"X-CSRFToken": $csrf_token},
             success: function(data){
-                console.log('comment success delete')
+                document.getElementById('comments').remove();
             }
         });
     });
