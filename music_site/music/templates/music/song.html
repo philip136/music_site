@@ -5,6 +5,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
+<link rel="stylesheet" href="{% static 'music/css/circle_bar.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -12,56 +13,10 @@
 {% endblock %}
 
 {% block main %}
-    <div id="bg">
-        <div id="blackLayer"></div>
-        <img src="{{ album_id.image_album.url }}"/>
-    </div>
-    <div id="container">
-    <div id="audio-img">
-        <img src="{{ album_id.image_album.url }}">
-    </div>
-    <div id="audio-player">
-        <div id="audio-info">
-            <span class="artist"></span> - <span class="title"></span>
-        </div>
-        <input id="volume" type="range" min="0" max="10" value="5">
-        <br>
-        <div id="audio-buttons">
-            <button id="prev"></button>
-            <button id="play"></button>
-            <button id="pause"></button>
-            <button id="stop"></button>
-            <button id="next"></button>
-        </div>
-        <div class="clearfix"></div>
-        <div id="tracker">
-            <div id="progressbar">
-                <span id="progress"></span>
-            </div>
-            <span id="duration"></span>
-        </div>
-        <div class="clearfix"></div>
-        <ul id="playlist">
-            {% for song in songs %}
-                {% if song.album.id == album_id.id %}
-                    <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ album.author_album }}">
-                        {{ song.name_song }}
-                        {% if is_favourite %}
-                            <a href="{% url 'music:favourite' pk=song.id %}">
-                                <i class="fas fa-heart"></i>
-                            </a>
-                        {% else %}
-                            <a href="{% url 'music:favourite' pk=song.id %}">
-                                <i class="far fa-heart"></i>
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-    </div>
-    <div id="vote">
+<main class="container-flud">
+    <div class="row">
+        <div class="col">
+            <div id="vote">
         <div class="form">
             {% if vote_form %}
             <form method="post" action="{{ vote_form_url }}">
@@ -77,40 +32,91 @@
             <h3> Score: {{ object.score|default_if_none:'TBD' }}</h3>
         </div>
     </div>
- {% for comment in comments %}
-    {% if comment.album.id == album_id.id %}
-        <div id="comments" value="{{ comment.id }}">
-            <div class="delete-comment">
-                <button class="btn_del" value="{{ comment.id }}">Delete</button>
-            </div>
-            <div class="date">{{ comment.publish_date }}</div>
-                <strong class="comment_author"> {{ comment.author }}</strong>
-                <p id="comment_text">
-                    {{ comment.text|linebreaks }}
-                </p>
-                <div>
-                    <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit">
-                        <input type="hidden" id="comment_id" value="{{ comment.id }}">
-                        <input type="hidden" name="csrfmiddlewaretoken">
-                        <input type="text" class="form-control" id="input_Text_post" placeholder="Change post for comment"></br>
-                        <input type="text" class="form-control" id="input_Text_text" placeholder="Change text for comment"></br>
-                        <button class="btn btn-info"> Change </button>
-                    </form>
+        </div>
+        <div class="col">
+            <div id="container">
+                <div id="audio-img">
+                    <img src="{{ album_id.image_album.url }}">
                 </div>
+            <div id="audio-player">
+                <div id="audio-info">
+                    <span class="artist"></span> - <span class="title"></span>
+                </div>
+                <input id="volume" type="range" min="0" max="10" value="5">
+                <br>
+                <div id="audio-buttons">
+                    <button id="prev"></button>
+                    <button id="play"></button>
+                    <button id="pause"></button>
+                    <button id="stop"></button>
+                    <button id="next"></button>
+                </div>
+                <div class="clearfix"></div>
+                <div id="tracker">
+                    <div id="progressbar">
+                        <span id="progress"></span>
+                    </div>
+                    <span id="duration"></span>
+                </div>
+                <div class="clearfix"></div>
+                <ul id="playlist">
+                    {% for song in songs %}
+                        {% if song.album.id == album_id.id %}
+                            <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ album.author_album }}">
+                                {{ song.name_song }}
+                                {% if is_favourite %}
+                                    <a href="{% url 'music:favourite' pk=song.id %}">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'music:favourite' pk=song.id %}">
+                                        <i class="far fa-heart"></i>
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
             </div>
         </div>
-    {% endif %}
- {% endfor %}
-<div id="comments">
-    <form id="post_form" method="post" action="/api/albums/create/">
-        <input type="hidden" name="csrfmiddlewaretoken">
-        <input type="hidden" id="author" value="{{ user.id }}">
-        <input type="hidden" id="album" value="{{ album_id.id }}">
-        <input type="text" class="form-control" id="post" placeholder="Post"></br>
-        <input type="text" class='form-control' id="text" placeholder="Text"></br>
-        <button class="btn btn-info">Send</button>
-    </form>
-</div>
+        <div class="col">
+                {% for comment in comments %}
+                    {% if comment.album.id == album_id.id %}
+                        <div id="comments" value="{{ comment.id }}">
+                            <div class="delete-comment">
+                                <button class="btn_del" value="{{ comment.id }}">Delete</button>
+                            </div>
+                        <div class="date">{{ comment.publish_date }}</div>
+                            <strong class="comment_author"> {{ comment.author }}</strong>
+                            <p id="comment_text">
+                                {{ comment.text|linebreaks }}
+                            </p>
+                            <div>
+                                <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit">
+                                    <input type="hidden" id="comment_id" value="{{ comment.id }}">
+                                    <input type="hidden" name="csrfmiddlewaretoken">
+                                    <input type="text" class="form-control" id="input_Text_post" placeholder="Change post for comment"></br>
+                                    <input type="text" class="form-control" id="input_Text_text" placeholder="Change text for comment"></br>
+                                    <button class="btn btn-info"> Change </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                 {% endfor %}
+                <div id="comments">
+                    <form id="post_form" method="post" action="/api/albums/create/">
+                        <input type="hidden" name="csrfmiddlewaretoken">
+                        <input type="hidden" id="author" value="{{ user.id }}">
+                        <input type="hidden" id="album" value="{{ album_id.id }}">
+                        <input type="text" class="form-control" id="post" placeholder="Post"></br>
+                        <input type="text" class='form-control' id="text" placeholder="Text"></br>
+                        <button class="btn btn-info">Send</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+</main>
 {% endblock %}
 
 {% block jquery %}
