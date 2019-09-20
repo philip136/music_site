@@ -92,15 +92,34 @@
                             <p id="comment_text">
                                 {{ comment.text|linebreaks }}
                             </p>
-                            <div>
-                                <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit">
-                                    <input type="hidden" id="comment_id" value="{{ comment.id }}">
-                                    <input type="hidden" name="csrfmiddlewaretoken">
-                                    <input type="text" class="form-control" id="input_Text_post" placeholder="Change post for comment"></br>
-                                    <input type="text" class="form-control" id="input_Text_text" placeholder="Change text for comment"></br>
-                                    <button class="btn btn-info"> Change </button>
-                                </form>
-                            </div>
+                                <button type="button" class="btn btn-primary btn-xs edit_button" data-toggle="modal" data-target="#modalComments"
+                                data-text="{{ comment.text }}" data-post="{{ comment.post }}" data-id="{{ comment.id }}">
+                                  Edit comment
+                                </button>
+                                <div class="modal fade" id="modalComments" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalScrollableTitle">{{ comment.post }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit/">
+                                          <div class="modal-body">
+                                              <input type="hidden" id="comment_id" value="{{ comment.id }}">
+                                              <input type="hidden" name="csrfmiddlewaretoken">
+                                              <input type="text" class="form-control" id="input_Text_post" placeholder="{{ comment.post }}">
+                                              <input type="text" class="form-control" id="input_Text_text" placeholder="{{ comment.text }}">
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button id="form-edit-save" type="submit" class="btn btn-primary btn-xs save_button">Save changes</button>
+                                          </div>
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
                         </div>
                     {% endif %}
                  {% endfor %}
