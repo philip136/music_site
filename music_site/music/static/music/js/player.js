@@ -1,7 +1,18 @@
 var audio;
 var default_volume = 0.5
+var album_image = $("#audio-img img").attr("src");
+
+// function change image
+function changeImage(){
+
+};
+
+// Setup background image
+document.getElementById("container-flud").style.backgroundImage = 'url(' + album_image + ')';
+
 //Pause button
 $('#pause').hide();
+
 
 //Init
 initAudio($('#playlist li:first-child'));
@@ -11,17 +22,18 @@ function initAudio(element){
     var full_path = element.attr('path');
     var title = element.text();
     var artist = element.attr('artist');
-    var song = element.attr('song')
+    var song = element.attr('song');
+    var image_album = element.attr('album-image');
 
     // Create Audio
     audio = new Audio(full_path + song);
     audio.volume = default_volume;
 
+    $('#audio-img img').attr('src', image_album);
 
     if (!audio.currentTime){
         $('#duration').html('0:00');
     }
-
 
     $('#audio-player .title').text(title);
     $('#audio-player .artist').text(artist);
@@ -100,6 +112,7 @@ $('#next').click(function(){
     }
     initAudio(next);
     audio.play();
+    $("")
     showDuration();
 
 });

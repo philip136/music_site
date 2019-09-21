@@ -23,8 +23,6 @@ from django.db.models import Q
 import django
 
 
-#on home page added last added music albums for last week
-
 class HomePage(TemplateView):
     template_name = 'music/home_page.html'
     model = Album
@@ -190,7 +188,9 @@ def favourite(request, pk):
 def favourite_list(request):
     user = request.user
     favourite_songs = user.favourite.all()
-    context = {'favourite_songs': favourite_songs}
+    album_id = Album.objects.all()
+    context = {'favourite_songs': favourite_songs,
+               'album_id': album_id}
     return render(request, 'users/favourite.html', context)
 
 

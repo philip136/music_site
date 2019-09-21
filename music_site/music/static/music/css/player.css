@@ -6,15 +6,19 @@
 }
 
 body{
-    width:100%;
+    color: white
     height:100%;
     background-color:#000;
 }
-.clearfix{
-    clear:both;
+
+.container-flud{
+   height: 100vh;
+   width: 100vw;
 }
 
 #comments{
+    font-family: Fantasy;
+    color: white;
     width: 350px;
     border-radius: 5px;
     border: 1px solid white;
@@ -23,19 +27,22 @@ body{
 }
 
 .form{
-    color:#fff;
+    font-family: Fantasy;
+    color: white;
+    color: #000;
     width: 180px;
-    border-radius: 15px;
-    border: 1px solid;
     padding: 25px;
     left: 8%;
     z-index: 100;
 }
 
 #container{
+    font-family: Fantasy;
+    color: #000;
     width: 350px;
     background-color: #fff;
     border-radius: 15px;
+    border: 1px solid black;
 }
 
 #audio-img{
@@ -44,7 +51,6 @@ body{
     height:200px;
     margin-bottom: 15px;
 }
-
 
 #audio-info{
     text-align:center;
@@ -161,13 +167,6 @@ button#next{
 
 }
 
-#blackLayer{
-    height: 100vh;
-    width: 100%;
-    background-color: rgba(0,0,0,.2);
-    position: absolute;
-    z-index: 99;
-}
 #audio-img img{
     height:200px;
     width:100%;
