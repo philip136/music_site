@@ -5,7 +5,6 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
-<link rel="stylesheet" href="{% static 'music/css/circle_bar.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -13,6 +12,31 @@
 {% endblock %}
 
 {% block main %}
+<div class="modal fade" id="modalComments" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Post title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="edit" method="post">
+          <div class="modal-body">
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              <input type="hidden" name="comment-author">
+              <input type="hidden" name="comment-for-album">
+              <input type="text" class="form-control" name="post" id="post-field" placeholder="Enter name post">
+              <input type="text" class="form-control" name="text" id="text-field" placeholder="Enter comment">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="form-edit-btn" type="button" class="btn btn-primary btn-xs save_button">Save changes</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 <main class="container-flud">
     <div class="row">
         <div class="col">
@@ -85,41 +109,17 @@
                     {% if comment.album.id == album_id.id %}
                         <div id="comments" value="{{ comment.id }}">
                             <div class="delete-comment">
-                                <button class="btn_del" value="{{ comment.id }}">Delete</button>
+                                <button class="btn btn-primary btn-xs btn_del" value="{{ comment.id }}">Delete</button>
                             </div>
                         <div class="date">{{ comment.publish_date }}</div>
                             <strong class="comment_author"> {{ comment.author }}</strong>
                             <p id="comment_text">
                                 {{ comment.text|linebreaks }}
                             </p>
-                                <button type="button" class="btn btn-primary btn-xs edit_button" data-toggle="modal" data-target="#modalComments"
-                                data-text="{{ comment.text }}" data-post="{{ comment.post }}" data-id="{{ comment.id }}">
+                                <button type="button" class="btn btn-primary btn-xs edit_btn" data-toggle="modal" data-target="#modalComments"
+                                data-id="{{ comment.id }}" data-post="{{ comment.post }}" data-text="{{ comment.text }}" data-author="{{ user.id }}" data-album="{{ album_id.id }}">
                                   Edit comment
                                 </button>
-                                <div class="modal fade" id="modalComments" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-                                  <div class="modal-dialog modal-dialog-scrollable" role="document">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalScrollableTitle">{{ comment.post }}</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                        </button>
-                                      </div>
-                                      <form id="edit" method="post" action="/api/albums/{{comment.id}}/edit/">
-                                          <div class="modal-body">
-                                              <input type="hidden" id="comment_id" value="{{ comment.id }}">
-                                              <input type="hidden" name="csrfmiddlewaretoken">
-                                              <input type="text" class="form-control" id="input_Text_post" placeholder="{{ comment.post }}">
-                                              <input type="text" class="form-control" id="input_Text_text" placeholder="{{ comment.text }}">
-                                          </div>
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button id="form-edit-save" type="submit" class="btn btn-primary btn-xs save_button">Save changes</button>
-                                          </div>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </div>
                         </div>
                     {% endif %}
                  {% endfor %}

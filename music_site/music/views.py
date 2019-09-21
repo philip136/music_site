@@ -194,10 +194,6 @@ def favourite_list(request):
     return render(request, 'users/favourite.html', context)
 
 
-class Test(TemplateView):
-    template_name = 'music/comments.html'
-
-
 
 
 
