@@ -1,4 +1,5 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import (redirect,
+                              render)
 from django.contrib import messages
 from .forms import (UserRegisterForm,
                     UserUpdateForm,

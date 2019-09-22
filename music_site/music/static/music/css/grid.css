@@ -1,5 +1,4 @@
 .container-album {
-
   display: grid;
   grid-column-gap: 10px;
   grid-template-columns: auto auto auto;
@@ -50,3 +49,6 @@
 .container-image:hover .middle {
   opacity: 1;
 }
+
+
+

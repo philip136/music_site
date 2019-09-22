@@ -26,8 +26,12 @@
               <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
               <input type="hidden" name="comment-author">
               <input type="hidden" name="comment-for-album">
-              <input type="text" class="form-control" name="post" id="post-field" placeholder="Enter name post">
-              <input type="text" class="form-control" name="text" id="text-field" placeholder="Enter comment">
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <input type="text" class="form-control" name="post" id="post-field" placeholder="Enter name post">
+              </div>
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <input type="text" class="form-control" name="text" id="text-field" placeholder="Enter comment">
+              </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
