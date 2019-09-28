@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from music.models import Comments, Album
+from music.models import (Comments,
+                          Album)
 
 
 class CommentSerializer(serializers.ModelSerializer):

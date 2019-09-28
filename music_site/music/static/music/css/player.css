@@ -17,20 +17,24 @@ body{
 }
 
 #comments{
+    background-color: white;
     font-family: Fantasy;
-    color: white;
     width: 350px;
     border-radius: 5px;
-    border: 1px solid white;
+    border: 1px solid black;
     margin-top: 10px;
     padding: 20px;
 }
 
 .form{
+    background-color:white;
     font-family: Fantasy;
-    color: white;
+    border-radius: 10px;
     color: #000;
     width: 180px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border: 1px solid black;
     padding: 25px;
     left: 8%;
     z-index: 100;

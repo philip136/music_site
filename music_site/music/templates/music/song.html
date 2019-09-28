@@ -116,13 +116,13 @@
                             <div class="delete-comment">
                                 <button class="btn btn-primary btn-xs btn_del" value="{{ comment.id }}">Delete</button>
                             </div>
-                        <div class="date">{{ comment.publish_date }}</div>
-                            <strong class="comment_author"> {{ comment.author }}</strong>
+                            <div class="post">
+                            </div>
+                            <strong class="comment_author"></strong>
                             <p id="comment_text">
-                                {{ comment.text|linebreaks }}
                             </p>
                                 <button type="button" class="btn btn-primary btn-xs edit_btn" data-toggle="modal" data-target="#modalComments"
-                                data-id="{{ comment.id }}" data-post="{{ comment.post }}" data-text="{{ comment.text }}" data-author="{{ user.id }}" data-album="{{ album_id.id }}">
+                                data-id="{{ comment.id }}" data-post="{{ comment.post }}" data-text="{{ comment.text }}" data-author="{{ user }}" data-album="{{ album_id.id }}">
                                   Edit comment
                                 </button>
                         </div>
@@ -130,12 +130,12 @@
                  {% endfor %}
                 <div id="comments">
                     <form id="post_form" method="post" action="/api/albums/create/">
-                        <input type="hidden" name="csrfmiddlewaretoken">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                         <input type="hidden" id="author" value="{{ user.id }}">
                         <input type="hidden" id="album" value="{{ album_id.id }}">
                         <input type="text" class="form-control" id="post" placeholder="Post"></br>
                         <input type="text" class='form-control' id="text" placeholder="Text"></br>
-                        <button class="btn btn-info">Send</button>
+                        <button class="btn btn-primary btn-xs btn_create">Send</button>
                     </form>
                 </div>
         </div>
@@ -145,6 +145,7 @@
 
 {% block jquery %}
     <script src="{% static 'music/js/player.js' %}"></script>
+    <script src="{% static 'music/js/comment_get.js' %}"></script>
     <script src="{% static 'music/js/comment_create.js' %}"></script>
     <script src="{% static 'music/js/comment_edit.js' %}"></script>
     <script src="{% static 'music/js/comment_delete.js' %}"></script>
