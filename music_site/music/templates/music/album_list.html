@@ -5,7 +5,6 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'music/css/grid.css' %}">
-<link rel="stylesheet" href="{% static 'music/css/preloader.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -13,15 +12,13 @@ All album
 {% endblock %}
 
 {% block main %}
-
-
-<div id="loader">
-</div>
 <div class="container-album">
 {% for contact in contacts %}
         <div class="album">
             <div>
-                <p class="font">{{ contact.name_album|upper }}</p>
+                <b>
+                    <p class="font">{{ contact.name_album|upper }}</p>
+                </b>
             </div>
             <div class="container-image">
                <img src="{{ contact.image_album.url }}">
@@ -60,5 +57,4 @@ All album
 {% endblock %}
 
 {% block jquery %}
-<script src="{% static 'music/js/spinner.js' %}"></script>
 {% endblock %}

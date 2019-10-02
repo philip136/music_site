@@ -1,3 +1,7 @@
+body{
+    background:url(../image/background.png) no-repeat;
+    background-size: cover;
+    }
 .container-album {
   display: grid;
   grid-column-gap: 10px;
@@ -19,6 +23,9 @@
   position: relative;
   width : 300px;
   height: 300px;
+  -moz-box-shadow: 3px 3px 5px 6px #6577B7;
+  -webkit-box-shadow: 3px 3px 5px 6px #6577B7;
+  box-shadow: 3px 3px 5px 6px #6577B7;
 }
 
 .container-image img{
@@ -29,7 +36,6 @@
 .container-image img:hover{
     transform: scale(1.2);
 }
-
 .middle {
   transition: .5s ease;
   opacity: 0;
