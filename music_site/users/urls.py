@@ -1,7 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import (register,
-                    profile)
+                    profile,
+                    change_friend)
 
 
 app_name = 'users'
@@ -24,5 +25,6 @@ urlpatterns = [
     path('password-reset/complete',
          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete'),
          name='password_reset_complete'),
+    path('profile/<operation>/<int:pk>', change_friend, name='change_friends'),
 
 ]

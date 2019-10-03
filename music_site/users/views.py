@@ -5,6 +5,8 @@ from .forms import (UserRegisterForm,
                     UserUpdateForm,
                     ProfileUpdateForm)
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from .models import Friend
 
 
 
@@ -36,9 +38,18 @@ def profile(request):
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
+    friend = Friend.objects.get(current_user=request.user.id)
     context = {'user_form': user_form,
-               'profile_form': profile_form
+               'profile_form': profile_form,
+               'friend': friend,
                }
-    return render(request,'users/profile.html',context)
+    return render(request, 'users/profile.html', context)
 
 
+def change_friend(request, operation, pk):
+    new_friend = User.objects.get(pk=pk)
+    if operation == 'add':
+        Friend.make_friend(request.user, new_friend)
+    elif operation == 'remove':
+        Friend.remove_friend(request.user, new_friend)
+    return redirect('users:profile')
