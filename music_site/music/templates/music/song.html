@@ -118,7 +118,9 @@
                             </div>
                             <div class="post">{{ comment.post }}
                             </div>
-                            <strong class="comment_author">{{ comment.author }}</strong>
+                            <strong class="comment_author">
+                                <a href="{% url 'users:profile_user' pk=comment.author.id %}">{{ comment.author }}</a>
+                            </strong>
                             <p id="comment_text"> {{ comment.text }}</p>
                                 <button type="button" class="btn btn-primary btn-xs edit_btn" data-toggle="modal" data-target="#modalComments"
                                 data-id="{{ comment.id }}" data-post="{{ comment.post }}" data-text="{{ comment.text }}" data-author="{{ user }}" data-album="{{ album_id.id }}">

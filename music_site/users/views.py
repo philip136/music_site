@@ -38,8 +38,11 @@ def profile(request):
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-    friend = Friend.objects.get(current_user=request.user.id)
-    friends = friend.users.all()
+    try:
+        friend = Friend.objects.get(current_user=request.user.id)
+        friends = friend.users.all()
+    except:
+        friends = None
     context = {'user_form': user_form,
                'profile_form': profile_form,
                'friends': friends,
@@ -48,7 +51,7 @@ def profile(request):
 
 
 def change_friend(request, operation, pk):
-    new_friend = User.objects.filter(pk=pk)
+    new_friend = User.objects.get(pk=pk)
     if operation == 'add':
         Friend.make_friend(request.user, new_friend)
     elif operation == 'remove':
@@ -56,5 +59,17 @@ def change_friend(request, operation, pk):
     return redirect('users:profile')
 
 
-def profile_user(request):
-    pass
+def profile_user(request, pk):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    #Try search friends for current user
+    try:
+        friend = Friend.objects.get(current_user=user.id)
+        friends = friend.users.all()
+    except:
+        friends = None
+    context = {'user': user,
+               'friends': friends}
+    return render(request, 'users/profile_users.html', context)
