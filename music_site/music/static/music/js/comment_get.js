@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 function getDevices() {
     let album_id = $('.edit_btn').attr('data-album');
+    let comments = document.getElementById("comments");
     $.ajax({
         type: 'GET',
         cache: false,

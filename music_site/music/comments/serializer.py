@@ -4,6 +4,7 @@ from music.models import (Comments,
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.CharField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Comments
         fields = [

@@ -126,9 +126,11 @@ class Comments(models.Model):
     text = models.TextField(max_length=500)
     publish_date = models.DateTimeField(default=timezone.now())
 
-
     def __str__(self):
         return self.text
+
+    def get_author_full_name(self):
+        return self.author.get_full_name()
 
 
 

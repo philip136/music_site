@@ -20,12 +20,13 @@ from django.http import Http404
 class CommentAPIView(ListAPIView):
     queryset = Comments.objects.all().order_by('-publish_date')
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class CommentCreateAPIView(CreateAPIView):
     queryset = Comments.objects.all()
     serializer_class = CommentCreateSerializer
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
