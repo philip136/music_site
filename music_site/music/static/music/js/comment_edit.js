@@ -23,7 +23,7 @@ $(document).delegate('#form-edit-btn', 'click', function(event){
             'text': each_data['text'],
         },
         success: function(data){
-            $(".post").html(data.post);
+            document.getElementById("comment_post").innerHTML=data.post;
             document.getElementById("comment_text").innerHTML=data.text;
             modal.modal('hide');
             $('.modal-backdrop').hide();

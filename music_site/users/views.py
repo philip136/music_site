@@ -53,3 +53,7 @@ def change_friend(request, operation, pk):
     elif operation == 'remove':
         Friend.remove_friend(request.user, new_friend)
     return redirect('users:profile')
+
+
+def profile_user(request):
+    pass
