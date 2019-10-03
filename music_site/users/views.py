@@ -39,15 +39,16 @@ def profile(request):
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
     friend = Friend.objects.get(current_user=request.user.id)
+    friends = friend.users.all()
     context = {'user_form': user_form,
                'profile_form': profile_form,
-               'friend': friend,
+               'friends': friends,
                }
     return render(request, 'users/profile.html', context)
 
 
 def change_friend(request, operation, pk):
-    new_friend = User.objects.get(pk=pk)
+    new_friend = User.objects.filter(pk=pk)
     if operation == 'add':
         Friend.make_friend(request.user, new_friend)
     elif operation == 'remove':
