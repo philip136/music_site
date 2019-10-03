@@ -3,6 +3,9 @@
 {% load static %}
 {% load thumbnail %}
 
+{% block style %}
+<link rel="stylesheet" href="{% static 'music/css/myprofile.css' %}">
+{% endblock %}
 
 {% block main %}
 <main class="container-flud">
@@ -15,17 +18,22 @@
                     {% else %}
                          <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="300px">
                     {% endif %}
-                    <div class="media-body">
-                        <h2 class="account-hedding"> {{ user.username }}</h2>
-                        <p class="text-secondary"> {{ user.email }}</p>
+                </div>
+                <div class="media-body">
+                        <h2 class="account-hedding">
+                            {{ user.username }}
+                        </h2>
+                        <p class="text-secondary">
+                            <i class="fa fa-home info"></i>
+                            {{ user.email }}
+                        </p>
                         <p class="info-users"> {{ user.about_me }}</p>
                     </div>
-                </div>
             </div>
         </div>
         <div class="col"></div>
         <div class="col">
-            <div class="info">
+            <div class="info-profile">
                 <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <fieldset class="form-group">
@@ -42,9 +50,11 @@
     </div>
     <div class="friends">
         <b> Your friends: {{ friends.count }} </b>
-                {% for friend in friends %}
-                    <p> {{ friend }}</p>
-                {% endfor %}
+                    <ul>
+                        {% for friend in friends %}
+                            <li> {{ friend }} </li>
+                        {% endfor %}
+                    </ul>
                 <a href="{% url 'users:change_friends' operation='remove' pk=user.pk %}">
                     <button type="button" class="btn btn-success"> Delete Friend</button>
                 </a>
