@@ -114,7 +114,9 @@
                     {% if comment.album.id == album_id.id %}
                         <div id="comments" value="{{ comment.id }}">
                             <div class="delete-comment">
-                                <button class="btn btn-primary btn-xs btn_del" value="{{ comment.id }}">Delete</button>
+                                <button class="btn btn-primary btn-xs btn_del" value="{{ comment.id }}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
                             </div>
                             <div class="post">{{ comment.post }}
                             </div>

@@ -23,3 +23,7 @@
 .col-xl{
     background-color: #111;
 }
+
+body{
+    background: url(../image/background.png) no-repeat;
+}

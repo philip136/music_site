@@ -22,6 +22,7 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form':form})
 
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -50,6 +51,7 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required
 def change_friend(request, operation, pk):
     new_friend = User.objects.get(pk=pk)
     if operation == 'add':
@@ -59,6 +61,7 @@ def change_friend(request, operation, pk):
     return redirect('users:profile')
 
 
+@login_required
 def profile_user(request, pk):
     if pk:
         user = User.objects.get(pk=pk)

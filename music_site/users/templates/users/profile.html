@@ -52,7 +52,7 @@
         <b> Your friends: {{ friends.count }} </b>
                     <ul>
                         {% for friend in friends %}
-                            <li> {{ friend }} </li>
+                            <li><a href="{% url 'users:profile_user' pk=friend.id %}"> {{ friend }} </a> </li>
                         {% endfor %}
                     </ul>
                 <a href="{% url 'users:change_friends' operation='remove' pk=user.pk %}">

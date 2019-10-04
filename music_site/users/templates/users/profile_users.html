@@ -20,7 +20,7 @@
                     <div class="title">
                         <h2>
                             {{ user.username }}
-                            {% if not user in friends %}
+                            {% if user not in friends %}
                             <a href="{% url 'users:change_friends' operation='add' pk=user.id %}">
                                 <button class="btn">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
