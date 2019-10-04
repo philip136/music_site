@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'users',
     'music',
+    'chat_room',
     'sorl.thumbnail',
     'crispy_forms',
     'rest_framework',

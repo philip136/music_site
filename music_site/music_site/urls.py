@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 import users.urls
 import music.urls
 import music.comments.urls
+import chat_room.urls
 
 
 
@@ -29,6 +30,7 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('', include(music.urls), name='music'),
     path('api/albums/', include(music.comments.urls), name='albums-api'),
+    path('api/chat/', include(chat_room.urls), name='chat-api'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
