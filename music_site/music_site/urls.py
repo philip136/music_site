@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 import users.urls
 import music.urls
 import music.comments.urls
@@ -32,7 +33,8 @@ urlpatterns = [
     path('', include(music.urls), name='music'),
     path('api/albums/', include(music.comments.urls), name='albums-api'),
     path('api/chat/', include(chat_room.urls), name='chat-api'),
-    path('api-token-auth/', obtain_auth_token, name='api-token-auth'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_verify'),
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
