@@ -1,0 +1,58 @@
+{% extends 'music/base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'music/css/grid.css' %}">
+{% endblock %}
+
+{% block title %}
+All album
+{% endblock %}
+
+{% block main %}
+{% url 'music:rap' as the_rap_url %}
+{% url 'music:rock' as the_rock_url %}
+{% if request.get_full_path == the_rap_url %}
+<div class="container-album">
+    {% for contact in Rap %}
+        <div class="album">
+            <div>
+                <p class="font">{{ contact.name_album|upper }}</p>
+            </div>
+            <div class="container-image">
+                <img src="{{ contact.image_album.url }}">
+                    <div class="middle">
+                        <div class="text">
+                            <button type="button" class="btn btn-dark">
+                                <a href="{% url 'music:RapAlbum' pk=contact.id %}" style="text-decoration: none">Listen</a>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% elif request.get_full_path == the_rock_url %}
+    <div class="container-album">
+        {% for contact in Rock %}
+            <div class="album">
+                <div>
+                    <p class="font">{{ contact.name_album|upper }}</p>
+                </div>
+                <div class="container-image">
+                    <img src="{{ contact.image_album.url }}">
+                        <div class="middle">
+                            <div class="text">
+                                <button type="button" class="btn btn-dark">
+                                    <a href="{% url 'music:RockAlbum' pk=contact.id %}" style="text-decoration: none">Listen</a>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

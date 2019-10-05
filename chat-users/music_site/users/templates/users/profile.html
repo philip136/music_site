@@ -1,0 +1,65 @@
+{% extends 'music/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load thumbnail %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'music/css/myprofile.css' %}">
+{% endblock %}
+
+{% block main %}
+<main class="container-flud">
+    <div class="row">
+        <div class="col">
+            <div class="content-section">
+                <div class="media">
+                    {% if user.profile.avatar == 'default.png' %}
+                        <img class="rounded-circle account-img"  src="{% static 'music/image/avatar.png' %}" width="300px;" height="300px">
+                    {% else %}
+                         <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="300px">
+                    {% endif %}
+                </div>
+                <div class="media-body">
+                        <h2 class="account-hedding">
+                            {{ user.username }}
+                        </h2>
+                        <p class="text-secondary">
+                            <i class="fa fa-home info"></i>
+                            {{ user.email }}
+                        </p>
+                        <p class="info-users"> {{ user.about_me }}</p>
+                    </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col">
+            <div class="info-profile">
+                <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Edit account </legend>
+                    {{ user_form|crispy }}
+                    {{ profile_form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-dark" type="submit"> Update </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="friends">
+        <b> Your friends: {{ friends.count }} </b>
+                    <ul>
+                        {% for friend in friends %}
+                            <li><a href="{% url 'users:profile_user' pk=friend.id %}"> {{ friend }} </a> </li>
+                        {% endfor %}
+                    </ul>
+                <a href="{% url 'users:change_friends' operation='remove' pk=user.pk %}">
+                    <button type="button" class="btn btn-success"> Delete Friend</button>
+                </a>
+        </div>
+</main>
+
+
+{% endblock %}

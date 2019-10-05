@@ -1,0 +1,56 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block title %}Favourite Music {% endblock %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
+{% endblock %}
+
+{% block main %}
+    <main class="container-flud" id="container-flud">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <div id="container">
+                <div id="audio-img">
+                    <img src="{{ album.image_album.url }}">
+                </div>
+            <div id="audio-player">
+                <div id="audio-info">
+                    <span class="artist"></span> - <span class="title"></span>
+                </div>
+                <input id="volume" type="range" min="0" max="10" value="5">
+                <br>
+                <div id="audio-buttons">
+                    <button id="prev"></button>
+                    <button id="play"></button>
+                    <button id="pause"></button>
+                    <button id="stop"></button>
+                    <button id="next"></button>
+                </div>
+                <div class="clearfix"></div>
+                <div id="tracker">
+                    <div id="progressbar">
+                        <span id="progress"></span>
+                    </div>
+                    <span id="duration"></span>
+                </div>
+                <div class="clearfix"></div>
+                <ul id="playlist">
+                    {% for song in favourite_songs %}
+                            <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ song.album.author_album }}"
+                            album-image="{{ song.album.image_album.url }}">
+                                {{ song.name_song }}
+                            </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+        </div>
+    <div class="col"></div>
+</main>
+{% endblock %}
+{% block jquery %}
+    <script src="{% static 'music/js/player.js' %}"></script>
+{% endblock %}

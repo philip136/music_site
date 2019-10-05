@@ -1,0 +1,67 @@
+{% extends 'music/base.html' %}
+{% load static %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'music/css/profile_users.css' %}">
+
+{% endblock %}
+
+{% block main %}
+<main class="container-flud">
+    <div class="row">
+        <div class="col">
+            <div class="profile-card">
+                <div class="image-container">
+                    {% if user.profile.avatar %}
+                        <img class="image" src="{{ user.profile.avatar.url }}">
+                    {% else %}
+                         <img class="image" src="{% static 'music/image/avatar.png' %}">
+                    {% endif %}
+                    <div class="title">
+                        <h2>
+                            {{ user.username }}
+                            {% if user not in friends %}
+                            <a href="{% url 'users:change_friends' operation='add' pk=user.id %}">
+                                <button class="btn">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                </button>
+                            </a>
+                            {% else %}
+                                <a href="{% url 'users:change_friends' operation='remove' pk=user.id %}">
+                                    <button class="btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </a>
+                            {% endif %}
+                        </h2>
+                    </div>
+                </div>
+                <div class="main-container">
+                    <p>
+                        <i class="fa fa-home info"></i>
+                        {{ user.email }}
+                    </p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col"></div>
+        <div class="col">
+            <div class="profile-card-friends">
+                <div class="container-friends">
+                    <h2 align="center"><b>Friend list:</b> {{ user.username }}</h2>
+                    <ul>
+                        {% for friend in friends %}
+                        <li>
+                            <div class="profile-user">
+                                <a href="{% url 'users:profile_user' pk=friend.id %}">{{ friend.username }}</a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+             </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

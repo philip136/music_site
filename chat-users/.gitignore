@@ -1,0 +1,33 @@
+<<<<<<< HEAD
+.DS_Store
+node_modules/
+/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+=======
+#idea folder
+.idea
+#virtual environment
+venv/
+#all .mp3 files which was uploaded with database
+*.mp3
+#png file
+*.png
+#all .pyc files
+*.pyc
+#all .xml files
+*.xml
+#admin statics files
+music_site/static/admin/
+*/__pycache__/
+local_settings.py
+>>>>>>> ac49de547d78fe8a891bc6cac9c35c8866f9ccd8
