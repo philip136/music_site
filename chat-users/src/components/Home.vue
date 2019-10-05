@@ -1,16 +1,16 @@
 <template>
     <div>
-        <h2> Chat </h2>
-        <button @click goLogin> Login </button>
+        <h2> Chat Users </h2>
+        <button @click="goLogin">Login</button>
     </div>
 </template>
 
 <script>
-    export default{
+    export default {
         name: 'Home',
         methods: {
             goLogin(){
-                this.$router.push({name: "login"})
+                this.$router.push({name: 'login'})
             },
         },
     }
