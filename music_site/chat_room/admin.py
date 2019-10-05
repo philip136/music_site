@@ -17,3 +17,4 @@ class ChatAdmin(admin.ModelAdmin):
     list_display = ('room', 'user', 'text', 'date')
 
 admin.site.register(Room, RoomAdmin)
+admin.site.register(Chat, ChatAdmin)
