@@ -1,12 +1,17 @@
 <template>
-    <div class=dialog>
-        <div v-for="dialog in dialogs">
-            <h3>{{dialog.user.username}}</h3>
-            <p>{{dialog.text}}</p>
-            <span>{{dialog.date}}</span>
-        </div>
-    </div>
-    
+    <mu-col span="8" xl="9">
+        <mu-container class="dialog">
+            <mu-row v-for="dialog in dialogs" direction="column" justify-content="start" align-items="end">
+                <h3>{{dialog.user.username}}</h3>
+                <p>{{dialog.text}}</p>
+                <span>{{dialog.date}}</span>
+            </mu-row>
+        </mu-container>
+        <mu-container>
+            <mu-text-field ref="textField" v-model="input" full-width placeholder="Please input message"/>
+            <mu-button class="btn-send" round color="success"> Send </mu-button>
+        </mu-container> 
+    </mu-col>
 </template>
 
 <script>
@@ -48,8 +53,9 @@ export default {
 
 <style scoped>
     .dialog{
-        width:70%;
-        height:140px;
         border: 1px solid #000;
+    }
+    .btn-send{
+        margin: -50px 0 0 15px;
     }
 </style>

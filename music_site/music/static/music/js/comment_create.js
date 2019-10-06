@@ -13,13 +13,9 @@ $(document).ready(function(){
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function(data){
-                    if (data.error === false){
-                        $('#post_form').attr('validated',true);
-                        $('#post_form').unbind().submit();
-                    }
-                    if (data.error === true){
-                        alert('Error message');
-                    }
+                    $("div class='comments'/>").append(
+                        $('<div class="post">testtesteasdtea</div>') 
+                    )
             }
         });
     });

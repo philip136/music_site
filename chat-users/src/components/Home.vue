@@ -1,11 +1,18 @@
 <template>
-    <div>
-        <h2> Chat Users </h2>
-        <button v-if="!auth" @click="goLogin"> Login</button>
-        <button v-else @click="logOut"> Log out </button>
-        <Room v-if="auth" @openDialog="openDialog"></Room>
-        <Dialog v-if="dialog.show" :id="dialog.id"></Dialog>
-    </div>
+    <mu-container>
+        <mu-appbar style="width: 100%;" color="primary">
+            Chat Users
+            <mu-button flat slot="right" v-if="!auth" @click="goLogin">Login</mu-button>
+            <mu-button flat slot="right" v-else @click="logOut">Logout</mu-button>
+        </mu-appbar>
+        <mu-row>
+            <h1></h1>
+        </mu-row>
+        <mu-row>
+            <Room v-if="auth" @openDialog="openDialog"></Room>
+            <Dialog v-if="dialog.show" :id="dialog.id"></Dialog>
+        </mu-row>
+    </mu-container>
 </template>
 
 <script>
@@ -50,5 +57,5 @@
 </script>
 
 <style scoped>
-
+    
 </style>
