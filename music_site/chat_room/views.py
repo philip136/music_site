@@ -36,6 +36,6 @@ class DialogApi(APIView):
     def post(self, request):
         dialog = self.serializer_class(data=request.data)
         if not dialog.is_valid():
-            return Response({"status": "Add"})
+            return Response(status=201)
         dialog.save(user=request.user)
-        return Response({"status": "Error"})
+        return Response(status=400)

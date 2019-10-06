@@ -8,8 +8,8 @@
             </mu-row>
         </mu-container>
         <mu-container>
-            <mu-text-field ref="textField" v-model="input" full-width placeholder="Please input message"/>
-            <mu-button class="btn-send" round color="success"> Send </mu-button>
+            <mu-text-field ref="textField" v-model="form.textarea" full-width placeholder="Please input message"/>
+            <mu-button class="btn-send" round color="success" @click="sendMessage"> Send </mu-button>
         </mu-container> 
     </mu-col>
 </template>
@@ -25,13 +25,18 @@ export default {
     data(){
         return {
             dialogs: '',
+            form: {
+                textarea: '',
+            }
         }
     },
     created(){
         $.ajaxSetup({
             headers: {"Authorization": "Bearer " + sessionStorage.getItem('auth_token')},
         });
-        this.loadDialog()
+        setInterval(() => {
+            this.loadDialog()
+        }, 5000)
     },
     methods: {
         loadDialog(){
@@ -45,6 +50,22 @@ export default {
                     this.dialogs = response.data
                     console.log(response.data)
                 }
+            })
+        },
+        sendMessage(){
+             $.ajax({
+                url: 'http://127.0.0.1:8000/api/chat/dialog/?room=',
+                type: "POST",
+                data:{
+                    room: this.id,
+                    text: this.form.textarea,
+                },
+                success: (response) => {
+                    this.loadDialog()
+                },
+                error: (response) => {
+                    alert(response.statusText)
+                },
             })
         }
     }
