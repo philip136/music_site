@@ -14,6 +14,8 @@ from .serializer import (RoomSerializer,
 
 
 class RoomApi(APIView):
+    permission_class = [permissions.IsAuthenticated, ]
+
     def get(self, request):
         rooms = Room.objects.all()
         serializer = RoomSerializer(rooms, many=True)
