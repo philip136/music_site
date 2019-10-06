@@ -29,7 +29,8 @@ export default {
                     },
                     success: (response) => {
                         alert("Спасибо что Вы с нами")
-                        console.log(response)
+                        sessionStorage.setItem('auth_token', response.access)
+                        this.$router.push({name: 'home'})
                     },
                     error: (response) => {
                         if (response.status === 401) {
