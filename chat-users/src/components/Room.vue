@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <ul>
-            <li v-for="room in rooms">
-                <h3>{{room.creater.username}}</h3>
-                {{room.date}}
-            </li>
-        </ul>
+    <div class="rooms">
+        <div>
+            <ul>
+                <li v-for="room in rooms">
+                    <h3 @click="openDialog(room.id)">{{room.creater.username}}</h3>
+                    {{room.date}}
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -17,6 +19,7 @@ export default {
     data(){
         return {
             rooms: '',
+            
         }
     },
     created(){
@@ -32,14 +35,18 @@ export default {
                 type: "GET",
                 success: (response) =>{
                     this.rooms = response.data
-                    console.log(response)
                 }
             })
+        },
+        openDialog(id){
+            this.$emit('openDialog', id)
         }
     },
 }
 </script>
 
 <style scoped>
-
+    h3{
+        cursor: pointer;
+    }
 </style>
