@@ -1,5 +1,6 @@
 <template>
     <mu-col span="8" xl="9">
+        <AddUsers></AddUsers>
         <mu-container class="dialog">
             <mu-row v-for="dialog in dialogs" direction="column" justify-content="start" align-items="end">
                 <h3>{{dialog.user.username}}</h3>
@@ -16,11 +17,15 @@
 
 <script>
 import $ from 'jquery'
+import AddUsers from './AddUsers.vue'
 
 export default {
     name: 'Dialog',
     props: {
         id: '',
+    },
+    components: {
+        AddUsers
     },
     data(){
         return {

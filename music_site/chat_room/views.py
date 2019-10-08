@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
+from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.parsers import (MultiPartParser,
                                     FormParser,
@@ -9,7 +10,8 @@ from .models import (Room,
                      Chat)
 from .serializer import (RoomSerializer,
                         ChatSerializer,
-                        ChatPostSerializer)
+                        ChatPostSerializer,
+                        UserSerializer)
 
 
 
@@ -39,3 +41,19 @@ class DialogApi(APIView):
             return Response(status=201)
         dialog.save(user=request.user)
         return Response(status=400)
+
+    
+class AddUsersRoom(APIView):
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        room = request.data.get("room")
+        user = request.data.get("user")
+        room = Room.objects.get(id=room)
+        room.invited.add(user)
+        room.save()
+        return Response(status=201)
+        
