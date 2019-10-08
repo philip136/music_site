@@ -12,6 +12,7 @@ from .serializer import (RoomSerializer,
                         ChatSerializer,
                         ChatPostSerializer,
                         UserSerializer)
+from django.db.models import Q
 
 
 
@@ -19,9 +20,13 @@ class RoomApi(APIView):
     permission_class = [permissions.IsAuthenticated, ]
 
     def get(self, request):
-        rooms = Room.objects.all()
+        rooms = Room.objects.filter(Q(creater=request.user) | Q(invited=request.user))
         serializer = RoomSerializer(rooms, many=True)
         return Response({"data": serializer.data})
+
+    def post(self, request):
+        Room.objects.create(creater=request.user)
+        return Response(status=201)
 
 
 class DialogApi(APIView):

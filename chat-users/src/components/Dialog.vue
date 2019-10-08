@@ -1,6 +1,6 @@
 <template>
     <mu-col span="8" xl="9">
-        <AddUsers></AddUsers>
+        <AddUsers :room="id"></AddUsers>
         <mu-container class="dialog">
             <mu-row v-for="dialog in dialogs" direction="column" justify-content="start" align-items="end">
                 <h3>{{dialog.user.username}}</h3>
@@ -46,14 +46,13 @@ export default {
     methods: {
         loadDialog(){
             $.ajax({
-                url: 'http://127.0.0.1:8000/api/chat/dialog/?room=',
+                url: 'http://127.0.0.1:8000/api/chat/dialog/',
                 type: "GET",
                 data:{
                     room: this.id,
                 },
                 success: (response) => {
                     this.dialogs = response.data
-                    console.log(response.data)
                 }
             })
         },
