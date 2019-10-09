@@ -5,6 +5,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'music/css/player.css' %}">
+<link rel="stylesheet" href="{% static 'music/css/alert.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -143,6 +144,16 @@
                 </div>
         </div>
     </div>
+    <div id='alert-success'>
+        <span class='interface'><i class="fas fa-check-circle"></i></span>
+        <p>Your comment has been sent successfully</p>
+        <button class='btn-close'>Close</a>
+    </div>
+    <div id='alert-error'>
+        <span class='interface'><i class="fas fa-check-circle"></i></span>
+        <p>Your comment has been sent successfully</p>
+        <button class='btn-close'>Close</a>
+    </div>
 </main>
 {% endblock %}
 
@@ -151,4 +162,5 @@
     <script src="{% static 'music/js/comment_create.js' %}"></script>
     <script src="{% static 'music/js/comment_edit.js' %}"></script>
     <script src="{% static 'music/js/comment_delete.js' %}"></script>
+    <script src="{% static 'music/js/custom_alert.js' %}">
 {% endblock %}
