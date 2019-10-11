@@ -13,4 +13,12 @@ venv/
 #admin statics files
 music_site/static/admin/
 */__pycache__/
+#local settings
 local_settings.py
+#production settings
+prod_settings.py
+#migrations
+*/migrations/*
+#cache
+.cache
+*.log
