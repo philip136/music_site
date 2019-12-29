@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,6 +120,8 @@ JWT_AUTH = {
     'Authorization': 'Bearer',
 }
 
+from .local_settings import  *
+
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
@@ -145,6 +146,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 # Send to local_settings
+
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static','music')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'music')
+MEDIA_URL = '/uploads/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'music:album-list'
 LOGIN_URL = 'users:login'
@@ -160,5 +168,3 @@ CACHES = {
 }
 
 CSRF_USE_SESSIONS = True
-
-from .local_settings import *

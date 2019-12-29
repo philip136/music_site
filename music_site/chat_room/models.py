@@ -18,6 +18,7 @@ class Chat(models.Model):
     text = models.TextField('Message', max_length=500)
     date = models.DateTimeField('Date message send', auto_now_add=True)
 
+
     class Meta:
         verbose_name = 'Chat message'
         verbose_name_plural = 'Chat messages'
