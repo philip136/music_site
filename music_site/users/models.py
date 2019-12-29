@@ -14,7 +14,9 @@ class Profile(models.Model):
 
 
 class Friend(models.Model):
+    # show all frieds current user
     users = models.ManyToManyField(User)
+    # current user
     current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True)
 
     #Add new friend

@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'users',
     'music',
     'chat_room',
+    'calendarApp',
     'sorl.thumbnail',
     'crispy_forms',
     'rest_framework',
