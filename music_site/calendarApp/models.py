@@ -49,9 +49,9 @@ class Event:
 
 
 class Calendar(models.Model):
-    day = models.DateTimeField()
-    start_event = models.TimeField(default=Event().getStartTimeEvent)
-    end_event = models.TimeField(default=Event().getFinishTimeEvent)
+    title = models.CharField(max_length=150)
+    start_event = models.DateTimeField(default=Event().getStartTimeEvent)
+    end_event = models.DateTimeField(default=Event().getFinishTimeEvent)
     notes = models.TextField(max_length=150)
 
 
