@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import (datetime,
                       timedelta)
+from users.models import Profile
 
 
 class WeekDays(models.Model):
@@ -34,7 +35,7 @@ class Event:
         return start_event
 
     @getStartTimeEvent.setter
-    def getEvent(self, day):
+    def getStartTimeEvent(self, day):
         self._day = day
 
     @property
@@ -48,11 +49,30 @@ class Event:
 
 
 
+
 class Calendar(models.Model):
     title = models.CharField(max_length=150)
     start_event = models.DateTimeField(default=Event().getStartTimeEvent)
     end_event = models.DateTimeField(default=Event().getFinishTimeEvent)
     notes = models.TextField(max_length=150)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+    def celebrate_status(self):
+        if self.end_event - self.start_event == timedelta(days=1):
+            return f"Today,{self.user}celebrate yourself birthday!"
+        else:
+            return f"Today begin your task and you lost count days!"
+
+    @property
+    def notes_short(self):
+        if len(self.notes) > 20:
+            return f'{self.notes[:20]}...'
+        return self.notes
+
+    def __str__(self):
+        return f'{self.user} - {self.notes_short}'
+
+
 
 
 

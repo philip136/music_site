@@ -5,15 +5,15 @@
   {% block style %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css">
-    <link rel="stylesheet" type="text/css" href="{'% static 'calendarApp/css/styles.css' %}">
+    <link rel="stylesheet"  href="{% static 'music/css/calendar.css' %}">
   {% endblock %}
 
   <!-- Bootstrap CSS -->
   {% block title %}
     Calendar
   {% endblock %}
-</head>
-<body>
+
+
 {% block main %}
     {{ calendar }}
 {% endblock %}
