@@ -6,5 +6,4 @@ from calendarApp.views import CalendarView
 class TestUrls(SimpleTestCase):
     def test_list_url_is_resolved(self):
         url = reverse('calendar')
-        print(resolve(url))
         self.assertEqual(resolve(url).func.view_class, CalendarView)

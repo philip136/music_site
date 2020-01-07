@@ -4,21 +4,23 @@ from datetime import (datetime,
                       timedelta)
 from users.models import Profile
 from django.contrib.auth.models import User
-
+import random
 
 
 
 class TestModels(TestCase):
     @property
+    def generate_random_digit(self):
+        return f'test' + str(random.randrange(1, 100, 1))
+
+    @property
     def create_profile(self):
-        user = User.objects.create_user("test", "test@gmail.com", "1234567test",)
-        profile = Profile.objects.create(
-            user=user,
-            about_me="hello my name is test",
-            avatar="default.png"
+        user = User.objects.create_user(self.generate_random_digit, self.generate_random_digit+"@gmail.com",
+                                        "1234567test",)
+        profile = Profile.objects.get(
+            user=user
         )
         return profile
-
 
     def setUp(self):
         self.calendar = Calendar.objects.create(
@@ -31,3 +33,4 @@ class TestModels(TestCase):
 
     def test_title_is_assigned(self):
         self.assertEquals(self.calendar.title, 'test-title')
+        self.create_profile.delete()
