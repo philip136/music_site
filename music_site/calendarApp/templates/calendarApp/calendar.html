@@ -16,5 +16,48 @@
 
 {% block main %}
     {{ calendar }}
+    <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" id="calendar_api_create">
+          <div class="modal-body">
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <input type="text" class="form-control" name="event-title" id="title-field" placeholder="Enter title event">
+              </div>
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <input type="text" class="form-control" name="event-notes" id="notes-field" placeholder="Enter notes">
+              </div>
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                  <input type="date" class="form-control" name="event-start" id="start-event-field" placeholder="Enter start time event">
+              </div>
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                    <input type="date" class="form-control" name="event-end" id="end-event-field" placeholder="Enter end time event">
+              </div>
+              <div class="shadow p-3 mb-5 bg-white rounded">
+                    <input type="text" class="form-control" name="event-author" id="event-author-field" placeholder="Enter user">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="save" type="submit" class="btn btn-primary btn-xs save_button">Save changes</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block jquery %}
+  <script src="{% static 'music/js/calendar_event_create.js' %}"></script>
 {% endblock %}
 

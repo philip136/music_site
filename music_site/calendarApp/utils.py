@@ -17,7 +17,7 @@ class CalendarUtil(HTMLCalendar):
             d += f'<li>{event.title}</li>'
             d += f'<img src="{event.user.avatar.url}" width="50" height="50">'
         if day !=0:
-            return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
+            return f"<td class='event'><span class='date'>{day}</span><ul> {d} </ul></td>"
         return '<td></td>'
 
     def formatweek(self, theweek, events):
