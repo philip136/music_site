@@ -7,9 +7,7 @@ from calendarApp.models import Calendar
 from datetime import (datetime,
                       timedelta)
 from rest_framework.authtoken.models import Token
-import json
 from rest_framework.test import APITestCase
-
 
 
 class TestViews(TestCase):
@@ -21,7 +19,6 @@ class TestViews(TestCase):
         response = self.client.get(self.calendar_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, "calendarApp/calendar.html")
-
 
 
 class TestCaseCalendarApi(APITestCase):
@@ -36,9 +33,12 @@ class TestCaseCalendarApi(APITestCase):
 
     @property
     def create_account(self):
-        user = User.objects.create_user("test123456", "test123456@gmail.com",
-                                             "1234567test",)
-        return user
+        try:
+            user = User.objects.get(id=1)
+            return user
+        except User.DoesNotExist:
+            user = User.objects.create_user("test1234", "test1234@gmail.com", "test12345678")
+            return user
 
     def api_authentication(self):
         self.client.credentials(HTTP_AUTHORIZATION="Token " + self.token.key)
@@ -57,25 +57,36 @@ class TestCaseCalendarApi(APITestCase):
         response = self.client.post(self.calendar_api_create, data)
         self.assertEquals(response.status_code, 201)
 
-    #need fix
     def test_calendar_api_update(self):
-        data = {"title": "test123",
-                "notes": "test_notes123",
+        data = {"title": "test",
+                "start_event": datetime.now(),
+                "end_event": datetime.now() + timedelta(days=1),
+                "notes": "test",
+                "user": (Profile.objects.get(user=self.profile))
                 }
-        response = self.client.put(self.calendar_api_update, data)
-        self.assertEquals(response.status_code, 200)
-        self.assertEqual(json.loads(response.content),
-                 {"title": "test123",
-                  "start_event": datetime.now(),
-                  "end_event": datetime.now() + timedelta(days=1),
-                  "notes": "test_notes123",
-                  "user": (Profile.objects.get(user=self.profile)).id
-                  })
+        try:
+            response = self.client.put(self.calendar_api_update, data)
+            self.assertEquals(response.status_code, 200)
+        except Calendar.DoesNotExist:
+            calendar = Calendar.objects.create(title="test",
+                                               start_event=datetime.now(),
+                                               end_event=datetime.now()+timedelta(days=1),
+                                               notes="test",
+                                               user=Profile.objects.get(user=self.profile))
+            response = self.client.put(reverse("calendar-api-update", kwargs={"event_id": calendar.id}), data)
+            self.assertEquals(response.status_code, 200)
 
-    #need fix
-    def test_calendar_api_delete(self):
-        response = self.client.delete(self.calendar_api_destroy)
+    def test_calendar_api_destroy(self):
+        calendar = Calendar.objects.create(title="test",
+                                           start_event=datetime.now(),
+                                           end_event=datetime.now() + timedelta(days=1),
+                                           notes="test",
+                                           user=Profile.objects.get(user=self.profile))
+        response = self.client.delete(reverse("calendar-api-delete", kwargs={"event_id": calendar.id}))
         self.assertEqual(response.status_code, 200)
+
+
+
 
 
 
