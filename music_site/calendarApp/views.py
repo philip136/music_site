@@ -3,6 +3,8 @@ from .models import Calendar
 from datetime import datetime
 from django.utils.safestring import mark_safe
 from .utils import CalendarUtil
+from users.models import Profile
+from django.shortcuts import render
 
 
 
@@ -17,7 +19,9 @@ class CalendarView(ListView):
         cal = CalendarUtil(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
+        context['user'] = (Profile.objects.get(user=self.request.user)).id
         return context
+
 
 def get_date(req_day):
     if req_day:

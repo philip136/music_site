@@ -28,23 +28,21 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" id="calendar_api_create">
+      <form id="calendar_api_create" method="post" action="{% url 'calendar-api-create' %}">
           <div class="modal-body">
               <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+              <input type="hidden" name="user" id="author" value="{{ user }}">
               <div class="shadow p-3 mb-5 bg-white rounded">
-                  <input type="text" class="form-control" name="event-title" id="title-field" placeholder="Enter title event">
+                  <input type="text" class="form-control" name="title" id="title" placeholder="Enter title event">
               </div>
               <div class="shadow p-3 mb-5 bg-white rounded">
-                  <input type="text" class="form-control" name="event-notes" id="notes-field" placeholder="Enter notes">
+                  <input type="text" class="form-control" name="notes" id="notes" placeholder="Enter notes">
               </div>
               <div class="shadow p-3 mb-5 bg-white rounded">
-                  <input type="date" class="form-control" name="event-start" id="start-event-field" placeholder="Enter start time event">
+                  <input type="date" class="form-control" name="start-event" id="start-event" placeholder="Enter start time event">
               </div>
               <div class="shadow p-3 mb-5 bg-white rounded">
-                    <input type="date" class="form-control" name="event-end" id="end-event-field" placeholder="Enter end time event">
-              </div>
-              <div class="shadow p-3 mb-5 bg-white rounded">
-                    <input type="text" class="form-control" name="event-author" id="event-author-field" placeholder="Enter user">
+                    <input type="date" class="form-control" name="end-event" id="end-event" placeholder="Enter end time event">
               </div>
           </div>
           <div class="modal-footer">

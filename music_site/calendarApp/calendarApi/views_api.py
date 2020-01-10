@@ -30,6 +30,7 @@ class CalendarViewApi(CreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
+            print(request.data)
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
