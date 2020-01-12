@@ -1,12 +1,11 @@
 from django.views.generic import ListView
+from django.views import View
 from .models import Calendar
 from datetime import datetime
 from django.utils.safestring import mark_safe
 from .utils import CalendarUtil
 from users.models import Profile
-from django.shortcuts import render
-
-
+from django.shortcuts import redirect,reverse
 
 
 class CalendarView(ListView):
@@ -20,6 +19,7 @@ class CalendarView(ListView):
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal)
         context['user'] = (Profile.objects.get(user=self.request.user)).id
+        context['events'] = Calendar.objects.all()
         return context
 
 

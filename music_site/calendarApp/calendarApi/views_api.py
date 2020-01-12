@@ -1,7 +1,9 @@
 from rest_framework.generics import (CreateAPIView,
+                                    RetrieveAPIView,
                                      ListAPIView,
                                      UpdateAPIView,
-                                     DestroyAPIView)
+                                     DestroyAPIView,
+                                     )
 from rest_framework.response import Response
 from .serializer_api import (CalendarSerializer,
                              CalendarListSerializer,
@@ -11,8 +13,8 @@ from calendarApp.models import Calendar
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from django.http import Http404
+from rest_framework.renderers import TemplateHTMLRenderer
 from django.shortcuts import redirect
-
 
 
 class CalendarListApi(ListAPIView):
@@ -21,19 +23,18 @@ class CalendarListApi(ListAPIView):
     permission_classes = [IsAuthenticated]
 
 
-
 class CalendarViewApi(CreateAPIView):
     queryset = Calendar.objects.all()
     serializer_class = CalendarSerializer
     permission_classes = [IsAuthenticated]
+    renderer_classes = [TemplateHTMLRenderer]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         if not serializer.is_valid():
-            print(request.data)
             return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, template_name="calendarApp/calendar.html")
 
 
 class CalendarUpdateEventApi(UpdateAPIView):

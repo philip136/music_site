@@ -16,31 +16,27 @@ function showModalEvent(){
     });
 }
 
+function action(data){
+    console.log(data);
+}
+
 // for post form
 function getCalendarApiJson(){
+  $(".btn_create").on("click", function(){
     $('#calendar_api_create').on('submit', function(event){
         let modal = document.getElementById("popup");
-        let data = {
-            title: modal.find('#calendar_api_create input[name="title"]').value,
-            notes: modal.find('#calendar_api_create input[name="notes"]').value,
-            start_event: modal.find('#calendar_api_create input[name="start_event"]').value,
-            end_event: modal.find('#calendar_api_create input[name="end_event"]').value,
-            user: modal.find("#calendar_api_create input[name='user']").value,
-        };
-        console.log(data);
         $.ajax({
             type: 'POST',
-            url: '/calendar/api/create',
+            url: 'http://localhost:8000/calendar/api/create/',
             dataType: "json",
-            contentType: "application/json",
             headers: {"X-CSRFToken": $("#calendar_api_create input[name='csrfmiddlewaretoken']").val()},
             data: {
-                "title": data['title'],
-                "start_event": data['start_event'],
-                "end_event": data['end_event'],
-                "notes": data['notes'],
-                "user": data['user'],
-                },
+                'title': $("#title").val(),
+                'start_event': $("#start_event").val(),
+                'end_event': $("#end_event").val(),
+                'notes': $("#notes").val(),
+                'user': $('#user').val(),
+            },
             success: function(data){
                 alert("success");
                 console.log("good");
@@ -48,9 +44,10 @@ function getCalendarApiJson(){
 
             },
             error: function(data){
-                console.log(data);
+                action(data);
                 alert("error");
             }
         });
     });
+  });
 }

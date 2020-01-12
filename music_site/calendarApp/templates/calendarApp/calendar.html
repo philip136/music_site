@@ -28,7 +28,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="calendar_api_create" method="post" action="{% url 'calendar-api-create' %}">
+     <form id="calendar_api_create" method="post" action="{% url 'calendar-api-create' %}">
           <div class="modal-body">
               <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
               <input type="hidden" name="user" id="author" value="{{ user }}">
@@ -47,7 +47,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="save" type="submit" class="btn btn-primary btn-xs save_button">Save changes</button>
+            <button class="btn btn-primary btn-xs btn_create">Send</button>
           </div>
       </form>
     </div>
