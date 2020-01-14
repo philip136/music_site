@@ -26,7 +26,6 @@ import music.urls
 import music.comments.urls
 import chat_room.urls
 import calendarApp.urls
-import calendarApp.calendarApi.urls_api
 
 
 urlpatterns = [
@@ -35,7 +34,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('', include(music.urls), name='music'),
     path('', include(calendarApp.urls), name='calendar'),
-    path('', include(calendarApp.calendarApi.urls_api), name='calendar-api'),
     path('api/albums/', include(music.comments.urls), name='albums-api'),
     path('api/chat/', include(chat_room.urls), name='chat-api'),
     path('api/token/', TokenObtainPairView.as_view(), name='token_verify'),

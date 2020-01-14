@@ -24,36 +24,10 @@ class WeekDays(models.Model):
     name = models.CharField(primary_key=True, choices=weekdays, max_length=10)
 
 
-class Event:
-    def __init__(self):
-        self._day = datetime.now()
-        self._finish = datetime.now()+timedelta(days=1)
-
-    @property
-    def getStartTimeEvent(self):
-        start_event = self._day.replace(hour=0, minute=0, second=0, microsecond=0)
-        return start_event
-
-    @getStartTimeEvent.setter
-    def getStartTimeEvent(self, day):
-        self._day = day
-
-    @property
-    def getFinishTimeEvent(self):
-        finish_event = self._finish.replace(hour=0, minute=0, second=0, microsecond=0)
-        return finish_event
-
-    @getFinishTimeEvent.setter
-    def getFinishTimeEvent(self, f_day):
-        self._finish = f_day
-
-
-
-
 class Calendar(models.Model):
     title = models.CharField(max_length=150)
-    start_event = models.DateTimeField(default=Event().getStartTimeEvent)
-    end_event = models.DateTimeField(default=Event().getFinishTimeEvent)
+    start_event = models.DateTimeField()
+    end_event = models.DateTimeField()
     notes = models.TextField(max_length=150)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 
@@ -68,6 +42,11 @@ class Calendar(models.Model):
         if len(self.notes) > 20:
             return f'{self.notes[:20]}...'
         return self.notes
+
+    # setter for initial new date
+    def __setattr__(self, key, value):
+        super(Calendar, self).__setattr__(key, value)
+        self.__dict__[key] = value
 
     def __str__(self):
         return f'{self.user} - {self.notes_short}'
