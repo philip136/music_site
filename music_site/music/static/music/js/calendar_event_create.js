@@ -38,86 +38,83 @@ $(document).ready(function(){
         }
     });
     initModal();
-    setupStartEvent();
 });
 
-// better use HashMap
-var monthsYear = {
-    "January": '01',
-    "February": '02',
+var monthDictionary = {
+    "January": "01",
+    "February": "02",
     "March": "03",
     "April": "04",
     "May": "05",
     "June": "06",
     "July": "07",
     "August": "08",
-    "September": '09',
-    "October": '10',
-    "November": '11',
-    "December": '12',
-}
-
-var date = $(".month").text();
-var month = date.split(" ")[0];
-var year = date.split(" ")[1];
-var current_date = monthsYear[month] + "." + year;
-var setNewDate = document.getElementById("start-event");
+    "September": "09",
+    "October": "10",
+    "November": "11",
+    "December": "12",
+};
 
 
 function initModal(){
     $(document).delegate(".event", "click", function() { showModalEvent();});
 };
 
+
+function checkDate(date){
+    if (date.length != 0){
+        document.getElementById("block_start").style.display = 'none';
+    }
+}
+
+function setupDate(event){
+    var month_and_year = $(".month").text()
+    var monthName = month_and_year.split(" ")[0];
+    var monthNumber = monthDictionary[monthName];
+    var year = month_and_year.split(" ")[1];
+    var day = event.target.innerText;
+    var date = new Date();
+    var time = date.getHours() + ":" + date.getMinutes();
+    if (day < 10){
+        date = year + "-" + monthNumber + "-0" + day + "T" + time;
+    }
+    else if (day > 10){
+        date = year + "-" + monthNumber + "-" + day + "T" + time;
+    }
+    return date;
+};
+
 // show modal
 function showModalEvent(){
     let modal = document.getElementById("popup");
-    let event = document.getElementsByClassName("event")
-    $(event).on("click", function(){
+    $(".event").click(function(event){
+       event.preventDefault();
+       let setDate = setupDate(event);
+       let setStartEvent = document.getElementById("start_event");
+       setStartEvent.defaultValue = setDate;
+       checkDate(setStartEvent);
        $(modal).modal("toggle");
-       $("#post-form").on("submit", function(event){
-            event.preventDefault();
-            create_event();
+       $("#post-form").on("submit", function(){
+            create_event(setStartEvent);
         });
     });
 };
 
-function action(data){
-    console.log(data);
-}
 
-// setup start event day
-function setupStartEvent(){
-    $(".event").click(function(event){
-        let startEventDay = event.target.innerText;
-        if (startEventDay < 10){
-            startEventDay = "0" + startEventDay;
-        }
-        let full_date = startEventDay = startEventDay + "." + current_date;
-        return full_date;
-    })
-}
 
-// setup finish day event
-function setupFinishEvent(){
-    $(".event").click(function(event){
-        let finishEventDay = event.target.innerText;
-        return finishEventDay;
-    })
-}
-
-function create_event(){
+function create_event(start_time){
     console.log("create event");
     $.ajax({
         type: "POST",
         data: {
             'title': $("#title").val(),
-            'start_event': $("#start_event").val(),
+            'start_event': document.getElementById("start_event").defaultValue,
             'end_event': $("#end_event").val(),
             'notes': $("#notes").val(),
             'user': $("#user").val(),
         },
         cache: true,
-        success: function(json){
+        success: function(response){
             alert("success");
             document.getElementById("post-form").reset();
         },

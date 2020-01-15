@@ -32,19 +32,19 @@
      <form method="post" id="post-form">
          <div class="modal-body">
              {% csrf_token %}
-             <div class="shadow p-3 mb-5 bg-white rounded" id="title">
+             <div class="shadow p-3 mb-5 bg-white rounded">
                   {{ form.title }}
               </div>
-             <div class="shadow p-3 mb-5 bg-white rounded" id="start_event">
+             <div class="shadow p-3 mb-5 bg-white rounded" id="block_start">
                   {{ form.start_event }}
               </div>
-             <div class="shadow p-3 mb-5 bg-white rounded" id="end_event">
+             <div class="shadow p-3 mb-5 bg-white rounded">
                   {{ form.end_event }}
               </div>
-             <div class="shadow p-3 mb-5 bg-white rounded" id="notes">
+             <div class="shadow p-3 mb-5 bg-white rounded">
                   {{ form.notes }}
              </div>
-             <div class="user-div" id="user">
+             <div class="shadow p-3 mb-5 bg-white rounded">
                  {{ form.user }}
              </div>
          </div>

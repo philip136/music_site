@@ -8,8 +8,8 @@ from django.urls import reverse_lazy
 from .forms import EventForm
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.models import User
-from django.core import serializers
 from rest_framework import serializers
+from django.shortcuts import get_object_or_404
 import json
 
 
@@ -58,7 +58,6 @@ class CalendarView(FormView):
             start_event = self.request.POST.get("start_event")
             end_event = self.request.POST.get("end_event")
             notes = self.request.POST.get("notes")
-            print("111111111111")
             event = Calendar(title=title,
                              start_event=start_event,
                              end_event=end_event,
