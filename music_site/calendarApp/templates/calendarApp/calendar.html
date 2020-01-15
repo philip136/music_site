@@ -29,18 +29,28 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-     <form method="post" class="calendar_event_create">
+     <form method="post" id="post-form">
          <div class="modal-body">
-             <input type="hidden" id="csrf" value="{{ csrf_token }}">
-             {% for field in form %}
-              <div class="shadow p-3 mb-5 bg-white rounded">
-                  {{ field }}
+             {% csrf_token %}
+             <div class="shadow p-3 mb-5 bg-white rounded" id="title">
+                  {{ form.title }}
               </div>
-             {% endfor %}
+             <div class="shadow p-3 mb-5 bg-white rounded" id="start_event">
+                  {{ form.start_event }}
+              </div>
+             <div class="shadow p-3 mb-5 bg-white rounded" id="end_event">
+                  {{ form.end_event }}
+              </div>
+             <div class="shadow p-3 mb-5 bg-white rounded" id="notes">
+                  {{ form.notes }}
+             </div>
+             <div class="user-div" id="user">
+                 {{ form.user }}
+             </div>
          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button class="btn btn-primary btn-xs btn_create">Send</button>
+            <input type="submit" value="Post" class="btn btn-secondary">
           </div>
      </form>
     </div>

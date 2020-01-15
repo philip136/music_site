@@ -1,4 +1,42 @@
 $(document).ready(function(){
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    var csrftoken = $('[name=csrfmiddlewaretoken]').val();
+
+    function csrfSafeMethod(method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    function sameOrigin(url) {
+        var host = document.location.host; // host + port
+        var protocol = document.location.protocol;
+        var sr_origin = '//' + host;
+        var origin = protocol + sr_origin;
+        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+            !(/^(\/\/|http:|https:).*/.test(url));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
     initModal();
     setupStartEvent();
 });
@@ -28,7 +66,7 @@ var setNewDate = document.getElementById("start-event");
 
 function initModal(){
     $(document).delegate(".event", "click", function() { showModalEvent();});
-}
+};
 
 // show modal
 function showModalEvent(){
@@ -36,8 +74,12 @@ function showModalEvent(){
     let event = document.getElementsByClassName("event")
     $(event).on("click", function(){
        $(modal).modal("toggle");
+       $("#post-form").on("submit", function(event){
+            event.preventDefault();
+            create_event();
+        });
     });
-}
+};
 
 function action(data){
     console.log(data);
@@ -63,35 +105,25 @@ function setupFinishEvent(){
     })
 }
 
-
-// for post form
-function getCalendarApiJson(){
-  $(".btn_create").on("click", function(){
-        $(".calendar_event_create").on("submit", function(event){
-        event.preventDefault();
-        let start_event = new Date("2020.01.01");
-        let end_event = new Date("2020.01.02");
-        console.log(start_event);
-        let modal = document.getElementById("popup");
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8000/calendar/api/create/',
-            dataType: "json",
-            contentType: false,
-            processData: false,
-            headers: {"X-CSRFToken": $("#calendar_api_create input[name='csrfmiddlewaretoken']").val()},
-            data: {
-                'title': $("#title").val(),
-                'start_event': start_event,
-                'end_event': end_event,
-                'notes': $("#notes").val(),
-                'user': $('#user').val(),
-            }.serialize(),
-            success: function(data){
-                alert("success");
-                console.log("good");
-            },
-        });
+function create_event(){
+    console.log("create event");
+    $.ajax({
+        type: "POST",
+        data: {
+            'title': $("#title").val(),
+            'start_event': $("#start_event").val(),
+            'end_event': $("#end_event").val(),
+            'notes': $("#notes").val(),
+            'user': $("#user").val(),
+        },
+        cache: true,
+        success: function(json){
+            alert("success");
+            document.getElementById("post-form").reset();
+        },
+        error: function(xhr, error_msg, err){
+            console.log(xhr.status + ": " + xhr.responseText);
+        }
     });
-  });
-}
+};
+

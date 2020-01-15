@@ -4,14 +4,23 @@ from datetime import datetime
 from django.utils.safestring import mark_safe
 from .utils import CalendarUtil
 from users.models import Profile
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from .forms import EventForm
+from django.http import HttpResponse,JsonResponse
+from django.contrib.auth.models import User
+from django.core import serializers
+from rest_framework import serializers
+import json
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Calendar
+        fields = "__all__"
 
 
 class CalendarView(FormView):
     model = Calendar
-    success_url = reverse_lazy("calendar")
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
 
@@ -26,17 +35,53 @@ class CalendarView(FormView):
         context['form'] = form
         return self.render_to_response(context)
 
+    def get_initial(self):
+        initial = super(CalendarView, self).get_initial()
+        initial["profile"] = Profile.objects.get(user=User.objects.get(pk=self.request.user.id))
+        return initial
+
     # Validation
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         if form.is_valid():
-            form.user = Profile.objects.get(user=request.user)
             form.save()
-            return redirect(self.success_url)
+            return self.form_valid(form, **kwargs)
         context = self.get_context_data(**kwargs)
         context["form"] = form
         return self.render_to_response(context)
+
+    def form_valid(self, form):
+        response_data = super(CalendarView, self).form_valid(form)
+        if self.request.is_ajax():
+            title = self.request.POST.get("title")
+            start_event = self.request.POST.get("start_event")
+            end_event = self.request.POST.get("end_event")
+            notes = self.request.POST.get("notes")
+            print("111111111111")
+            event = Calendar(title=title,
+                             start_event=start_event,
+                             end_event=end_event,
+                             notes=notes,
+                             user=Profile.objects.get(user=User.objects.get(id=self.get_initial().get("profile"))))
+            event.save()
+            response_data["title"] = event.title
+            response_data["start_event"] = event.start_event
+            response_data["end_event"] = event.end_event
+            response_data["notes"] = event.notes
+            response_data["user"] = event.user
+            return JsonResponse(response_data)
+        else:
+            return response_data
+
+    def form_invalid(self, form):
+        response_data = super(CalendarView, self).form_invalid(form)
+        response_data["message_error"] = json.dumps("Form is invalid")
+        data = EventSerializer(response_data).data
+        return JsonResponse(data)
+
+    def get_success_url(self):
+        return reverse_lazy("music:home")
 
 
 def get_date(req_day):
