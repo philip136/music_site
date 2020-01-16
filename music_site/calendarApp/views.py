@@ -6,8 +6,10 @@ from .utils import CalendarUtil
 from users.models import Profile
 from django.urls import reverse_lazy
 from .forms import EventForm
-from django.http import HttpResponse,JsonResponse
+from django.http import (HttpResponseRedirect,
+                         JsonResponse)
 from django.contrib.auth.models import User
+from django.contrib import messages
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 import json
@@ -23,6 +25,7 @@ class CalendarView(FormView):
     model = Calendar
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
+    http_method_names = ['get', 'post', 'delete']
 
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -88,6 +91,16 @@ def get_date(req_day):
         year, month = (int(x) for x in req_day.split('-'))
         return datetime.date(year, month, day=1)
     return datetime.today()
+
+
+def delete_event(request, id=None):
+    event = get_object_or_404(Calendar, id=id)
+    creator_event = event.user.username
+    if request.method == "POST" and request.user.is_authenticated and request.user.username == creator_event:
+        event.delete()
+        messages.success(request, "Event successfully deleted!")
+        return HttpResponseRedirect(reverse_lazy("music:home"))
+    return HttpResponseRedirect(reverse_lazy("calendarApp:calendar"))
 
 
 

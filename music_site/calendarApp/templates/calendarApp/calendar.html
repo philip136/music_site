@@ -15,46 +15,82 @@
 
 
 {% block main %}
+    <div class="calendar-left">
 
-    {{ calendar }}
-    <!-- Button trigger modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-     <form method="post" id="post-form">
-         <div class="modal-body">
-             {% csrf_token %}
-             <div class="shadow p-3 mb-5 bg-white rounded">
-                  {{ form.title }}
-              </div>
-             <div class="shadow p-3 mb-5 bg-white rounded" id="block_start">
-                  {{ form.start_event }}
-              </div>
-             <div class="shadow p-3 mb-5 bg-white rounded">
-                  {{ form.end_event }}
-              </div>
-             <div class="shadow p-3 mb-5 bg-white rounded">
-                  {{ form.notes }}
-             </div>
-             <div class="shadow p-3 mb-5 bg-white rounded">
-                 {{ form.user }}
-             </div>
-         </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="submit" value="Post" class="btn btn-secondary">
-          </div>
-     </form>
+    <div class="hamburger">
+      <div class="burger-line"></div>
+      <!-- burger-line -->
+      <div class="burger-line"></div>
+      <!-- burger-line -->
+      <div class="burger-line"></div>
+      <!-- burger-line -->
     </div>
+    <!-- hamburger -->
+
+
+    <div class="num-date">27</div>
+    <!--num-date -->
+    <div class="day">THURSDAY</div>
+    <!--day -->
+    <div class="current-events">Current Events
+      <br/>
+      <ul>
+        <li>Day 09 Daily CSS Image</li>
+      </ul>
+      <span class="posts">See post events</span></div>
+    <!--current-events -->
+
+    <div class="create-event">Create an Event</div>
+    <!-- create-event -->
+    <hr class="event-line" />
+    <div class="add-event"><span class="add">+</span></div>
+    <!-- add-event -->
+
   </div>
+
+    <div class="calendar-base">
+        <div class="triangle-left"></div>
+        <div class="triangle-right"></div>
+        {{ calendar }}
+    </div>
+    <!-- Button trigger modal -->
+<!-- Modal -->
+    <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+         <form method="post" id="post-form">
+             <div class="modal-body">
+                 {% csrf_token %}
+                 <div class="shadow p-3 mb-5 bg-white rounded">
+                      {{ form.title }}
+                  </div>
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block_start">
+                      {{ form.start_event }}
+                  </div>
+                 <div class="shadow p-3 mb-5 bg-white rounded">
+                      {{ form.end_event }}
+                  </div>
+                 <div class="shadow p-3 mb-5 bg-white rounded">
+                      {{ form.notes }}
+                 </div>
+                 <div class="shadow p-3 mb-5 bg-white rounded">
+                     {{ form.user }}
+                 </div>
+             </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" value="Post" class="btn btn-secondary">
+              </div>
+         </form>
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock %}
 

@@ -54,12 +54,27 @@ var monthDictionary = {
     "November": "11",
     "December": "12",
 };
+var createBtn = false;
 
 
 function initModal(){
-    $(document).delegate(".event", "click", function() { showModalEvent();});
+    $(document).delegate(".event", "click", function(event) {
+        event.preventDefault();
+        getAllEvents(event);
+        showModalEvent();
+    });
 };
 
+function getAllEvents(event){
+    var events = event.target.innerText;
+    if (events.length > 0 && createBtn == false){
+        var btn_del = document.createElement("BUTTON");
+        btn_del.innerHTML = "Delete";
+        btn_del.className += "btn btn-primary btn-xs btn_del"
+        document.getElementById("title-event").appendChild(btn_del);
+        createBtn = true;
+    }
+}
 
 function checkDate(date){
     if (date.length != 0){
@@ -84,7 +99,6 @@ function setupDate(event){
     return date;
 };
 
-// show modal
 function showModalEvent(){
     let modal = document.getElementById("popup");
     $(".event").click(function(event){
@@ -99,8 +113,6 @@ function showModalEvent(){
         });
     });
 };
-
-
 
 function create_event(start_time){
     console.log("create event");

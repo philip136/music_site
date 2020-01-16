@@ -1,38 +1,146 @@
+body{
+    background-color: lightgray;
+    font-family: 'Kanit', sans-serif;
+}
 .calendar {
-  width: 60%;
-  margin: auto;
-  font-size: 13px;
+  width: 860px;
+  height: 500px;
+  background-color: white;
+  position: relative;
+  z-index: -1;
+  border: none !important;
+  border-collapse: none !important;
+  top: -500px;
+  left: 390px;
 }
 
 .calendar tr, .calendar td {
-  border: 1px solid black;
+  border: none !important;
+  border-collapse: none !important;
 }
 
 .calendar th {
+  border: none !important;
+  border-collapse: none !important;
   padding: 10px;
   text-align: center;
   font-size: 18px;
+
+}
+
+.date{
+    margin: 50px;
 }
 
 .calendar td {
-  width: 200px;
-  height: 150px;
-  padding: 20px 0px 0px 5px;
+  width: 50px;
+  height: 80px;
+  padding: 10px 0px 0px 5px;
 }
 
 .month {
+  color: #E8E8E8;
+  font-size: 30px;
+  top: 20px;
+  font-weight: bold;
+}
+
+.month-line {
+  border-color: #E8E8E8;
+  top: 130px;
+  width: 62%;
+  position: absolute;
+  right: 110px;
+}
+
+
+.calendar-left {
+  width: 300px;
+  height: 500px;
+  border-radius: 20px 0px 0px 20px;
+  background-color: #2ECC71;
+  position: relative;
+  color: white;
+  left: 90px;
+}
+
+.hamburger {
+  position: relative;
+  top: 25px;
+  left: 25px;
+}
+
+.burger-line:hover, .hamburger:hover{
+  background-color:#27e879 !important;
+}
+
+.burger-line {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  border-radius: 15%;
+  margin-bottom: 3px;
+}
+
+.num-date {
+  font-size: 150px;
+  width: 50%;
+  margin: 0 auto;
+  font-weight: 700;
+}
+
+.day {
+  width: 50%;
+  margin: 0px auto;
+  font-size: 30px;
+  position: relative;
+  bottom: 60px;
+}
+
+.current-events {
+  font-size: 15px;
+  position: relative;
+  margin-left: 25px;
+  bottom: 30px;
+}
+
+.posts {
+  text-decoration: underline dotted;
+}
+.posts:hover{
+  color:#27e879 !important;
+}
+
+.create-event {
+  font-size: 18px;
+  position: relative;
+  margin-top: 30px;
+  margin-left: 25px;
+}
+
+.event-line {
+  width: 90%;
+}
+
+.add-event {
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border-radius: 50%;
+  border: solid white 2px;
+  position: relative;
+  bottom: 42px;
+  left: 260px;
+}
+
+.add {
   font-size: 25px;
+  position: relative;
+  left: 4px;
+  bottom: 10px;
 }
 
-.date {
-  font-size: 16px;
-}
-
-ul {
-  height: 100%;
-  padding: 0px 5px 0px 20px;
-}
-
-a {
-  color: #17a2b8;
+.add:hover, .create-event:hover, .add-event:hover{
+  color:#27e879 !important;
+  border-color: #27e879 !important;
 }
