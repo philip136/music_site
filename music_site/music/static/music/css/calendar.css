@@ -4,10 +4,10 @@ body{
 }
 .calendar {
   width: 860px;
-  height: 500px;
+  height: 490px;
   background-color: white;
   position: relative;
-  z-index: -1;
+  z-index: 10;
   border: none !important;
   border-collapse: none !important;
   top: -500px;
@@ -20,22 +20,24 @@ body{
 }
 
 .calendar th {
-  border: none !important;
-  border-collapse: none !important;
   padding: 10px;
-  text-align: center;
-  font-size: 18px;
-
+  text-align: left;
+  font-size: 22px;
 }
 
 .date{
-    margin: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .calendar td {
   width: 50px;
   height: 80px;
   padding: 10px 0px 0px 5px;
+}
+
+li.title-event{
+  list-style-type: none;
 }
 
 .month {
@@ -53,6 +55,19 @@ body{
   right: 110px;
 }
 
+.active-day {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #2ECC71;
+  position: absolute;
+  color: white;
+  margin-top: -18px;
+  margin-left: -5px;
+  font-size:20px;
+  text-align:center;
+
+}
 
 .calendar-left {
   width: 300px;
@@ -136,7 +151,7 @@ body{
 .add {
   font-size: 25px;
   position: relative;
-  left: 4px;
+  left: 1px;
   bottom: 10px;
 }
 

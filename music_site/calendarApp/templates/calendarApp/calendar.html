@@ -15,6 +15,32 @@
 
 
 {% block main %}
+<div class="modal" id="modal-all-events" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">List your tasks</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        {% for e in events %}
+      <div class="modal-body">
+        <p>{{ e.title }} -  {{ e.notes }}</p>
+            <form method="post" action="{% url 'event-delete' id=e.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-dark"></button>
+            </form>
+      </div>
+        {% endfor %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{ calendar }}
     <div class="calendar-left">
 
     <div class="hamburger">
@@ -28,16 +54,20 @@
     <!-- hamburger -->
 
 
-    <div class="num-date">27</div>
+    <div class="num-date">{{ today }}</div>
     <!--num-date -->
-    <div class="day">THURSDAY</div>
+    <div class="day">{{ name_day }}</div>
     <!--day -->
     <div class="current-events">Current Events
       <br/>
       <ul>
-        <li>Day 09 Daily CSS Image</li>
+            {% for e in events|slice:":3" %}
+            <li> {{ e.title }} - {{ e.notes }}</li>
+          {% endfor %}
       </ul>
-      <span class="posts">See post events</span></div>
+        <span class="posts">
+            See post events <b>({{ events.count }})</b>
+        </span></div>
     <!--current-events -->
 
     <div class="create-event">Create an Event</div>
@@ -45,13 +75,10 @@
     <hr class="event-line" />
     <div class="add-event"><span class="add">+</span></div>
     <!-- add-event -->
-
   </div>
-
     <div class="calendar-base">
         <div class="triangle-left"></div>
         <div class="triangle-right"></div>
-        {{ calendar }}
     </div>
     <!-- Button trigger modal -->
 <!-- Modal -->
@@ -59,7 +86,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Event</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -91,7 +118,6 @@
         </div>
       </div>
     </div>
-</div>
 {% endblock %}
 
 {% block jquery %}

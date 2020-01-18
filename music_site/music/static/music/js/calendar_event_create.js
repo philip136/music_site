@@ -37,6 +37,9 @@ $(document).ready(function(){
             }
         }
     });
+    // init day
+    currentDayInit();
+    // delegate
     initModal();
 });
 
@@ -54,16 +57,60 @@ var monthDictionary = {
     "November": "11",
     "December": "12",
 };
-var createBtn = false;
 
+var weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
+
+var createBtn = false;
+var todayNameDay = weekday[new Date().getDay()];
+var todayDayDigit = new Date().getDate();
+var abbrev_name = todayNameDay.slice(0,3);
+
+abbrev_name = abbrev_name.toLowerCase();
+$("."+abbrev_name).css({"color": "#2ECC71"});
+
+function currentDayInit(){
+    let elem_date = $("span.date").val(todayDayDigit)[todayDayDigit-1];
+    if (elem_date.value == todayDayDigit){
+        elem_date.className = "active-day";
+    }
+}
 
 function initModal(){
-    $(document).delegate(".event", "click", function(event) {
+    $(document).delegate("div.add-event", "click", function(event) {
         event.preventDefault();
-        getAllEvents(event);
         showModalEvent();
     });
+    $(document).delegate("td", "click", function(event){
+        event.preventDefault();
+        initNewEvent();
+    });
+    $(document).delegate(".posts", "click", function(event){
+        event.preventDefault();
+        let modal = document.getElementById("modal-all-events");
+        console.log("event");
+        $(modal).modal("toggle");
+    });
 };
+
+// Initialization new event after click number on calendar
+function initNewEvent(){
+    let day = event.target.innerText;
+    let year = $('.month').text().split(" ")[1];
+    let month_name = $('.month').text().split(" ")[0];
+    let month = monthDictionary[month_name];
+    let date = new Date(year,month-1,day);
+    let abbreviated_name = weekday[date.getDay()].slice(0,3);
+    abbreviated_name = abbreviated_name.toLowerCase();
+    $(".num-date").text(day);
+    $(".day").text(weekday[date.getDay()]);
+}
 
 function getAllEvents(event){
     var events = event.target.innerText;
@@ -76,18 +123,13 @@ function getAllEvents(event){
     }
 }
 
-function checkDate(date){
-    if (date.length != 0){
-        document.getElementById("block_start").style.display = 'none';
-    }
-}
 
 function setupDate(event){
     var month_and_year = $(".month").text()
     var monthName = month_and_year.split(" ")[0];
     var monthNumber = monthDictionary[monthName];
     var year = month_and_year.split(" ")[1];
-    var day = event.target.innerText;
+    var day = $("div.num-date").text();
     var date = new Date();
     var time = date.getHours() + ":" + date.getMinutes();
     if (day < 10){
@@ -101,12 +143,11 @@ function setupDate(event){
 
 function showModalEvent(){
     let modal = document.getElementById("popup");
-    $(".event").click(function(event){
+    $("div.add-event").click(function(event){
        event.preventDefault();
        let setDate = setupDate(event);
        let setStartEvent = document.getElementById("start_event");
        setStartEvent.defaultValue = setDate;
-       checkDate(setStartEvent);
        $(modal).modal("toggle");
        $("#post-form").on("submit", function(){
             create_event(setStartEvent);

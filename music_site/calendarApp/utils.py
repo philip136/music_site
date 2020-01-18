@@ -14,11 +14,10 @@ class CalendarUtil(HTMLCalendar):
         events_per_day = events.filter(start_event__day=day)
         d = ""
         for event in events_per_day:
-            d += f"<li class='title-event' id='title-event'>{event.title}</li>"
-            d += f'<img src="{event.user.avatar.url}" width="50" height="50">'
+            d += f"<li class='title-event' id='title-event'></li>"
         if day !=0:
-            return f"<td class='event'><span class='date'>{day}</span><ul> {d} </ul></td>"
-        return '<td></td>'
+            return f"<td class='event' id='event-field'><span class='date'>{day}</span><ul> {d} </ul></td>"
+        return "<td></td>"
 
     def formatweek(self, theweek, events):
         week = ''

@@ -15,6 +15,17 @@ from django.shortcuts import get_object_or_404
 import json
 
 
+days_of_the_week = {
+    0: "Monday",
+    1: "Tuesday",
+    2: "Wednesday",
+    3: "Thursday",
+    4: "Friday",
+    5: "Saturday",
+    6: "Sunday"
+}
+
+
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Calendar
@@ -34,7 +45,12 @@ class CalendarView(FormView):
         d = get_date(self.request.GET.get("day", None))
         cal = CalendarUtil(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
+        number_day = datetime.weekday(datetime.today())
         context['calendar'] = mark_safe(html_cal)
+        context["name_day"] = days_of_the_week.get(number_day)
+        context["events"] = Calendar.objects.filter(user=Profile.objects.get(
+                                                    user=User.objects.get(id=request.user.id)))
+        context["today"] = datetime.today().day
         context['form'] = form
         return self.render_to_response(context)
 
@@ -95,12 +111,12 @@ def get_date(req_day):
 
 def delete_event(request, id=None):
     event = get_object_or_404(Calendar, id=id)
-    creator_event = event.user.username
-    if request.method == "POST" and request.user.is_authenticated and request.user.username == creator_event:
+    creator_event = event.user.user.username
+    if request.method == "POST":
         event.delete()
         messages.success(request, "Event successfully deleted!")
         return HttpResponseRedirect(reverse_lazy("music:home"))
-    return HttpResponseRedirect(reverse_lazy("calendarApp:calendar"))
+    return HttpResponseRedirect(reverse_lazy("calendar"))
 
 
 
