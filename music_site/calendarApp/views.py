@@ -7,6 +7,7 @@ from users.models import Profile
 from django.urls import reverse_lazy
 from .forms import EventForm
 from django.http import (HttpResponseRedirect,
+                         HttpResponse,
                          JsonResponse)
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -36,35 +37,31 @@ class CalendarView(FormView):
     model = Calendar
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
+    form_error = False
 
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         context = self.get_context_data(**kwargs)
-        d = get_date(self.request.GET.get("day", None))
-        cal = CalendarUtil(d.year, d.month)
-        html_cal = cal.formatmonth(withyear=True)
-        number_day = datetime.weekday(datetime.today())
-        context['calendar'] = mark_safe(html_cal)
-        context["name_day"] = days_of_the_week.get(number_day)
         context['form'] = form
         return self.render_to_response(context)
 
     def get_initial(self):
         initial = super(CalendarView, self).get_initial()
-        initial["profile"] = Profile.objects.get(user=User.objects.get(pk=self.request.user.id))
+        if self.request.user.is_authenticated:
+            initial.update({"user": Profile.objects.get(user=User.objects.get(pk=self.request.user.id))})
         return initial
 
-    # Validation
     def post(self, request, *args, **kwargs):
         form_class = self.get_form_class()
         form = self.get_form(form_class)
-        if form.is_valid():
-            form.save()
-            return self.form_valid(form, **kwargs)
         context = self.get_context_data(**kwargs)
-        context["form"] = form
-        return self.render_to_response(context)
+        if form.is_valid():
+            return self.form_valid(form, **kwargs)
+        else:
+            self.form_error = True
+            context["form_error"] = self.form_error
+            return self.render_to_response(context)
 
     def form_valid(self, form):
         response_data = super(CalendarView, self).form_valid(form)
@@ -84,21 +81,22 @@ class CalendarView(FormView):
             response_data["end_event"] = event.end_event
             response_data["notes"] = event.notes
             response_data["user"] = event.user
+            form.save()
             return JsonResponse(response_data)
         else:
             return response_data
-
-    def form_invalid(self, form):
-        response_data = super(CalendarView, self).form_invalid(form)
-        response_data["message_error"] = json.dumps("Form is invalid")
-        data = EventSerializer(response_data).data
-        return JsonResponse(data)
 
     def get_success_url(self):
         return reverse_lazy("music:home")
 
     def get_context_data(self, **kwargs):
         context = super(CalendarView, self).get_context_data(**kwargs)
+        d = get_date(self.request.GET.get("day", None))
+        cal = CalendarUtil(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        number_day = datetime.weekday(datetime.today())
+        context['calendar'] = mark_safe(html_cal)
+        context["name_day"] = days_of_the_week.get(number_day)
         context["events"] = Calendar.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
         context["today"] = datetime.today().day
         return context

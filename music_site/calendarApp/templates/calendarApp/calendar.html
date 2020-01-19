@@ -94,13 +94,14 @@
          <form method="post" id="post-form">
              <div class="modal-body">
                  {% csrf_token %}
+                 {{ form.errors }}
                  <div class="shadow p-3 mb-5 bg-white rounded">
                       {{ form.title }}
                   </div>
                  <div class="shadow p-3 mb-5 bg-white rounded" id="block_start">
                       {{ form.start_event }}
                   </div>
-                 <div class="shadow p-3 mb-5 bg-white rounded">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block_end_event">
                       {{ form.end_event }}
                   </div>
                  <div class="shadow p-3 mb-5 bg-white rounded">
@@ -121,6 +122,14 @@
 {% endblock %}
 
 {% block jquery %}
-  <script src="{% static 'music/js/calendar_event_create.js' %}"></script>
+    <script>
+        //show modal if date incorrect
+        {% if form_error %}
+            $("#popup").modal("show");
+            let field = document.getElementById("block_end_event");
+            field.required = true;
+        {% endif %}
+    </script>
+    <script src="{% static 'music/js/calendar_event_create.js' %}"></script>
 {% endblock %}
 

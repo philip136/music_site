@@ -153,6 +153,16 @@ function showModalEvent(){
             create_event(setStartEvent);
         });
     });
+    $("div.create-event").click(function(event){
+       event.preventDefault();
+       let setDate = setupDate(event);
+       let setStartEvent = document.getElementById("start_event");
+       setStartEvent.defaultValue = setDate;
+       $(modal).modal("toggle");
+       $("#post-form").on("submit", function(){
+            create_event(setStartEvent);
+        });
+    });
 };
 
 function create_event(start_time){
@@ -168,11 +178,17 @@ function create_event(start_time){
         },
         cache: true,
         success: function(response){
-            alert("success");
-            document.getElementById("post-form").reset();
+            if (response.status_code == 200){
+                alert("success");
+            }
+            else {
+                let r = document.getElementById("end_event");
+                r.required = true;
+                console.log("error");
+            }
         },
-        error: function(xhr, error_msg, err){
-            console.log(xhr.status + ": " + xhr.responseText);
+        error: function(response){
+            console.log(response);
         }
     });
 };

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Calendar
-from users.models import Profile
+from django.core.exceptions import ValidationError
+import re
 
 
 class EventForm(forms.ModelForm):
@@ -32,6 +33,20 @@ class EventForm(forms.ModelForm):
             format="%Y-%m-%dT%H:%M"
         ))
 
+    def clean_end_event(self):
+        start_event = self.cleaned_data["start_event"]
+        end_event = self.cleaned_data["end_event"]
+        if start_event > end_event:
+            raise ValidationError("End event date not must be earlier then start event date")
+        return end_event
+
+    def clean_title(self):
+        title = self.cleaned_data["title"]
+        regular = re.search(r"^\D", title)
+        if regular == None:
+            raise ValidationError("Event title must begin with a letter")
+        return title
+
     class Meta:
         model = Calendar
         fields = ("title", "start_event", "end_event", "notes", "user")
@@ -39,3 +54,4 @@ class EventForm(forms.ModelForm):
             "title": forms.TextInput(attrs={"class": "form-control", "id": "title"}),
             "notes": forms.TextInput(attrs={"class": "form-control", "id": "notes"}),
         }
+
