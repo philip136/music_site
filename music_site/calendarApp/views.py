@@ -36,7 +36,6 @@ class CalendarView(FormView):
     model = Calendar
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
-    http_method_names = ['get', 'post', 'delete']
 
     def get(self, request, *args, **kwargs):
         form_class = self.get_form_class()
@@ -48,9 +47,6 @@ class CalendarView(FormView):
         number_day = datetime.weekday(datetime.today())
         context['calendar'] = mark_safe(html_cal)
         context["name_day"] = days_of_the_week.get(number_day)
-        context["events"] = Calendar.objects.filter(user=Profile.objects.get(
-                                                    user=User.objects.get(id=request.user.id)))
-        context["today"] = datetime.today().day
         context['form'] = form
         return self.render_to_response(context)
 
@@ -100,6 +96,12 @@ class CalendarView(FormView):
 
     def get_success_url(self):
         return reverse_lazy("music:home")
+
+    def get_context_data(self, **kwargs):
+        context = super(CalendarView, self).get_context_data(**kwargs)
+        context["events"] = Calendar.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
+        context["today"] = datetime.today().day
+        return context
 
 
 def get_date(req_day):
