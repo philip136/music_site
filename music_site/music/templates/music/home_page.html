@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block main %}
+{% if user.is_authenticated %}
     <div class="col-xl">
         <div class="col-md-12">
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -44,4 +45,5 @@
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}

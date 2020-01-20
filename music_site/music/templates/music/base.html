@@ -20,7 +20,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'music:album-list' %}">Listen <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'music:album-list' %}" id="listen-music">Listen <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'music:top_album' %}">Top Album</a>
@@ -58,7 +58,7 @@
         <a class="nav-link" href="http://127.0.0.1:8080/#/">Chat<span class="sr-only"></span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'calendar' %}">Calendar<span class="sr-only"></span></a>
+        <a class="nav-link" href="{% url 'calendar' %}" id="calendar-href">Calendar<span class="sr-only"></span></a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0" action="{% url 'music:album-list' %}">
