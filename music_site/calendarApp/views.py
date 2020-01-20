@@ -109,35 +109,12 @@ class EventUpdate(UpdateView):
     success_url = reverse_lazy("music:home")
     template_name = "calendarApp/calendar.html"
 
-    def get_initial(self):
-        initial = super(EventUpdate, self).get_initial()
-        if self.request.user.is_authenticated:
-            initial.update({"user": Profile.objects.get(user=User.objects.get(pk=self.request.user.id))})
-        return initial
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get("pk")
+        return get_object_or_404(Calendar, pk=pk)
 
-    def put(self, pk, *args, **kwargs):
-        event = self.model.objects.get(id=pk)
-        form = self.form_class(self.request.POST, instance=event)
-        if form.is_valid():
-            form.save()
-            messages.success("Event success update")
-            return HttpResponseRedirect(reverse_lazy("music:home"))
-        context = self.get_context_data(**kwargs)
-        context["form"] = form
-        return self.render_to_response(context)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        d = get_date(self.request.GET.get("day", None))
-        cal = CalendarUtil(d.year, d.month)
-        html_cal = cal.formatmonth(withyear=True)
-        number_day = datetime.weekday(datetime.today())
-        context['calendar'] = mark_safe(html_cal)
-        context["name_day"] = days_of_the_week.get(number_day)
-        context["events"] = self.model.objects.filter(
-            user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
-        context["today"] = datetime.today().day
-        return context
+    def form_valid(self, form):
+        return super(EventUpdate, self).form_valid(form)
 
 
 def get_date(req_day):

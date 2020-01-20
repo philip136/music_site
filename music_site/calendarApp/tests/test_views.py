@@ -72,6 +72,26 @@ class TestViews(TestCase):
             response = self.client.post(path_to_delete, follow=True)
             self.assertEqual(response.status_code, 200)
 
+    def test_calendar_POST_UPDATE(self):
+        event_one = Calendar(
+            title="test1",
+            notes="test1",
+            start_event=datetime.now(tz=timezone.utc),
+            end_event=datetime.now(tz=timezone.utc) + timedelta(days=1),
+            user=Profile.objects.get(user=self.user)
+        )
+        event_one.save()
+        if self.client.login(username=self.username, password=self.password):
+            response = self.client.post(reverse("event-update", kwargs={"pk": event_one.id}),
+                                                         {"title": "test2",
+                                                          "notes": "test2",
+                                                          "start_event": datetime.today(),
+                                                          "end_event": datetime.now(tz=timezone.utc),
+                                                          "user": Profile.objects.get(user=self.user)
+                                                          }, follow=True)
+            self.assertEqual(response.status_code, 200)
+
+
 
 
 
