@@ -91,10 +91,10 @@ function initModal(){
         event.preventDefault();
         initNewEvent();
     });
+    // modal for delete and update event
     $(document).delegate(".posts", "click", function(event){
         event.preventDefault();
         let modal = document.getElementById("modal-all-events");
-        console.log("event");
         $(modal).modal("toggle");
     });
 };
@@ -122,7 +122,6 @@ function getAllEvents(event){
         createBtn = true;
     }
 }
-
 
 function setupDate(event){
     var month_and_year = $(".month").text()

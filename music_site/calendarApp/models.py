@@ -2,6 +2,7 @@ from django.db import models
 from datetime import (datetime,
                       timedelta)
 from users.models import Profile
+from django.shortcuts import reverse
 
 
 class WeekDays(models.Model):

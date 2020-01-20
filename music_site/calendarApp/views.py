@@ -7,12 +7,13 @@ from users.models import Profile
 from django.urls import reverse_lazy
 from .forms import EventForm
 from django.http import (HttpResponseRedirect,
-                         HttpResponse,
                          JsonResponse)
 from django.contrib.auth.models import User
 from django.contrib import messages
 from rest_framework import serializers
-from django.shortcuts import get_object_or_404
+from django.shortcuts import (get_object_or_404,
+                              render)
+from django.views.generic import UpdateView
 import json
 
 
@@ -74,7 +75,7 @@ class CalendarView(FormView):
                              start_event=start_event,
                              end_event=end_event,
                              notes=notes,
-                             user=Profile.objects.get(user=User.objects.get(id=self.get_initial().get("profile"))))
+                             user=Profile.objects.get(user=User.objects.get(id=self.get_initial().get("user"))))
             event.save()
             response_data["title"] = event.title
             response_data["start_event"] = event.start_event
@@ -97,7 +98,44 @@ class CalendarView(FormView):
         number_day = datetime.weekday(datetime.today())
         context['calendar'] = mark_safe(html_cal)
         context["name_day"] = days_of_the_week.get(number_day)
-        context["events"] = Calendar.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
+        context["events"] = self.model.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
+        context["today"] = datetime.today().day
+        return context
+
+
+class EventUpdate(UpdateView):
+    model = Calendar
+    form_class = EventForm
+    success_url = reverse_lazy("music:home")
+    template_name = "calendarApp/calendar.html"
+
+    def get_initial(self):
+        initial = super(EventUpdate, self).get_initial()
+        if self.request.user.is_authenticated:
+            initial.update({"user": Profile.objects.get(user=User.objects.get(pk=self.request.user.id))})
+        return initial
+
+    def put(self, pk, *args, **kwargs):
+        event = self.model.objects.get(id=pk)
+        form = self.form_class(self.request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            messages.success("Event success update")
+            return HttpResponseRedirect(reverse_lazy("music:home"))
+        context = self.get_context_data(**kwargs)
+        context["form"] = form
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        d = get_date(self.request.GET.get("day", None))
+        cal = CalendarUtil(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        number_day = datetime.weekday(datetime.today())
+        context['calendar'] = mark_safe(html_cal)
+        context["name_day"] = days_of_the_week.get(number_day)
+        context["events"] = self.model.objects.filter(
+            user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
         context["today"] = datetime.today().day
         return context
 
@@ -112,7 +150,7 @@ def get_date(req_day):
 def delete_event(request, id=None):
     event = get_object_or_404(Calendar, id=id)
     creator_event = event.user.user.username
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_authenticated and request.user.username == creator_event:
         event.delete()
         messages.success(request, "Event successfully deleted!")
         return HttpResponseRedirect(reverse_lazy("music:home"))

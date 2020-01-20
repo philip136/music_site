@@ -24,12 +24,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+        <form method="post" id="edit">
+        </form>
         {% for e in events %}
       <div class="modal-body">
         <p>{{ e.title }} -  {{ e.notes }}</p>
+          <button type="submit" class="btn btn-success" id="event-edit" data-id="{{e.id}}" data-title="{{e.title}}" data-start="{{e.start_event}}"
+          data-end="{{e.end_event}}" data-notes="{{e.notes}}" data-user="{{e.user}}">
+                    Edit
+          </button>
             <form method="post" action="{% url 'event-delete' id=e.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-dark"></button>
+                <button type="submit" class="btn btn-dark">
+                    Delete
+                </button>
             </form>
       </div>
         {% endfor %}
@@ -95,19 +103,19 @@
              <div class="modal-body">
                  {% csrf_token %}
                  {{ form.errors }}
-                 <div class="shadow p-3 mb-5 bg-white rounded">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block-title">
                       {{ form.title }}
                   </div>
-                 <div class="shadow p-3 mb-5 bg-white rounded" id="block_start">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block-start">
                       {{ form.start_event }}
                   </div>
-                 <div class="shadow p-3 mb-5 bg-white rounded" id="block_end_event">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block-end">
                       {{ form.end_event }}
                   </div>
-                 <div class="shadow p-3 mb-5 bg-white rounded">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block-notes">
                       {{ form.notes }}
                  </div>
-                 <div class="shadow p-3 mb-5 bg-white rounded">
+                 <div class="shadow p-3 mb-5 bg-white rounded" id="block-user">
                      {{ form.user }}
                  </div>
              </div>
@@ -131,5 +139,6 @@
         {% endif %}
     </script>
     <script src="{% static 'music/js/calendar_event_create.js' %}"></script>
+    <script src="{% static 'music/js/calendar_update.js' %}"></script>
 {% endblock %}
 
