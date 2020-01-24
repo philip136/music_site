@@ -5,7 +5,8 @@ from django.utils.safestring import mark_safe
 from .utils import CalendarUtil
 from users.models import Profile
 from django.urls import reverse_lazy
-from .forms import EventForm
+from .forms import (EventForm,
+                    EventFormUpdate)
 from django.http import (HttpResponseRedirect,
                          JsonResponse)
 from django.contrib.auth.models import User
@@ -58,6 +59,7 @@ class CalendarView(FormView):
         form = self.get_form(form_class)
         context = self.get_context_data(**kwargs)
         if form.is_valid():
+            form.save()
             return self.form_valid(form, **kwargs)
         else:
             self.form_error = True
@@ -82,7 +84,6 @@ class CalendarView(FormView):
             response_data["end_event"] = event.end_event
             response_data["notes"] = event.notes
             response_data["user"] = event.user
-            form.save()
             return JsonResponse(response_data)
         else:
             return response_data
@@ -105,16 +106,41 @@ class CalendarView(FormView):
 
 class EventUpdate(UpdateView):
     model = Calendar
-    form_class = EventForm
+    form_class = EventFormUpdate
     success_url = reverse_lazy("music:home")
     template_name = "calendarApp/calendar.html"
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get("pk")
-        return get_object_or_404(Calendar, pk=pk)
+        self.object = get_object_or_404(Calendar, pk=pk)
+        return super(EventUpdate, self).get_object(queryset)
 
-    def form_valid(self, form):
-        return super(EventUpdate, self).form_valid(form)
+    def post(self, request, *args, **kwargs):
+        print("q  w e r t y")
+        event = self.model.objects.get(pk=self.get_object().pk)
+        event.user = Profile.objects.get(user=request.user)
+        form = self.form_class(self.request.POST, instance=event)
+        print(form.errors)
+        if form.is_valid():
+            print("form is valid")
+            form.save()
+            return HttpResponseRedirect(self.success_url)
+        context = super(EventUpdate, self).get_context_data(**kwargs)
+        context["form"] = form
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super(EventUpdate, self).get_context_data(**kwargs)
+        d = get_date(self.request.GET.get("day", None))
+        cal = CalendarUtil(d.year, d.month)
+        html_cal = cal.formatmonth(withyear=True)
+        number_day = datetime.weekday(datetime.today())
+        context['calendar'] = mark_safe(html_cal)
+        context["name_day"] = days_of_the_week.get(number_day)
+        context["events"] = self.model.objects.filter(
+            user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
+        context["today"] = datetime.today().day
+        return context
 
 
 def get_date(req_day):

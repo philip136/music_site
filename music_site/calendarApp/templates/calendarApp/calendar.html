@@ -24,15 +24,49 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form method="post" id="edit">
-        </form>
         {% for e in events %}
-      <div class="modal-body">
-        <p>{{ e.title }} -  {{ e.notes }}</p>
-          <button type="submit" class="btn btn-success" id="event-edit" data-id="{{e.id}}" data-title="{{e.title}}" data-start="{{e.start_event}}"
-          data-end="{{e.end_event}}" data-notes="{{e.notes}}" data-user="{{e.user}}">
+        <button type="submit" class="btn btn-success" id="event-edit" data-id="{{e.id}}" data-title="{{e.title}}" data-start="{{e.start_event}}"
+                data-end="{{e.end_event}}" data-notes="{{e.notes}}" data-user="{{e.user}}">
                     Edit
-          </button>
+        </button>
+        <p>{{ e.title }} -  {{ e.notes }}</p>
+        <!-- Edit form modal window -->
+        <div class="modal fade" id="popup-for-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Event Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+             <form method="post" id="event-form-edit">
+                 <div class="modal-body">
+                     {% csrf_token %}
+                     {{ form.errors }}
+                     <div class="shadow p-3 mb-5 bg-white rounded" id="block-title-edit">
+                          {{ form.title }}
+                      </div>
+                     <div class="shadow p-3 mb-5 bg-white rounded" id="block-start-edit">
+                          {{ form.start_event }}
+                      </div>
+                     <div class="shadow p-3 mb-5 bg-white rounded" id="block-end-edit">
+                          {{ form.end_event }}
+                      </div>
+                     <div class="shadow p-3 mb-5 bg-white rounded" id="block-notes-edit">
+                          {{ form.notes }}
+                     </div>
+
+                 </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" value="Post" class="btn btn-secondary" id="submit-event-edit">
+                  </div>
+             </form>
+        </div>
+      </div>
+    </div>
+      <div class="modal-body">
             <form method="post" action="{% url 'event-delete' id=e.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-dark">
@@ -74,14 +108,18 @@
           {% endfor %}
       </ul>
         <span class="posts">
-            See post events <b>({{ events.count }})</b>
+            See post events <b class="count-events">({{ events.count }})</b>
         </span></div>
     <!--current-events -->
 
     <div class="create-event">Create an Event</div>
     <!-- create-event -->
     <hr class="event-line" />
-    <div class="add-event"><span class="add">+</span></div>
+    <div class="add-event">
+        <button class="add_event_for_user" type="button" data-toggle="modal" data-target="#popup">
+            <span class="add">+</span>
+        </button>
+    </div>
     <!-- add-event -->
   </div>
     <div class="calendar-base">

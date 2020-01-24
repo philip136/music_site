@@ -49,26 +49,24 @@ function initModalEventEdit(){
 };
 
 function showModalEvent(){
-    let modal = document.getElementById("popup");
+    let modal = document.getElementById("popup-for-edit");
     $(modal).modal("show");
-    let form = document.getElementById("post-form");
+    let form = document.getElementById("event-form-edit");
+    // get all old fields value from button
     let title = document.getElementById("event-edit").getAttribute("data-title")
     let start_event = document.getElementById("event-edit").getAttribute("data-start");
     let end_event = document.getElementById("event-edit").getAttribute("data-end");
     let notes= document.getElementById("event-edit").getAttribute("data-notes");
-    let user = document.getElementById("event-edit").getAttribute("data-user");
 
-    let e_title = document.getElementById("block-title").value = title;
-    let e_start_event = document.getElementById("block-start").value = start_event;
-    let e_end_event = document.getElementById("block-end").value = end_event;
-    let e_notes = document.getElementById("block-notes").value = notes;
-    let e_user = document.getElementById("block-user").value = user
+    let e_title = document.getElementById("block-title-edit").value = title;
+    let e_start_event = document.getElementById("block-start-edit").value = start_event;
+    let e_end_event = document.getElementById("block-end-edit").value = end_event;
+    let e_notes = document.getElementById("block-notes-edit").value = notes;
 
     initForm(form, "title", e_title);
     initForm(form, "start_event", e_start_event);
     initForm(form, "end_event", e_end_event);
     initForm(form, "notes", e_notes);
-    initForm(form, "user", e_user);
     form.action = "/calendar/event-update/" + document.getElementById("event-edit").getAttribute("data-id") + "/";
 }
 

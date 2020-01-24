@@ -5,12 +5,7 @@ import re
 
 
 class EventForm(forms.ModelForm):
-    profile = forms.HiddenInput(
-        attrs={
-            "class": "form-control",
-            "id": "user",
-        }
-    )
+
     start_event = forms.DateTimeField(
         input_formats=["%Y-%m-%dT%H:%M"],
         widget=forms.DateTimeInput(
@@ -53,5 +48,15 @@ class EventForm(forms.ModelForm):
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control", "id": "title"}),
             "notes": forms.TextInput(attrs={"class": "form-control", "id": "notes"}),
+            "user": forms.HiddenInput(attrs={"class": "form-control", "id": "user"})
         }
 
+
+class EventFormUpdate(EventForm):
+    class Meta:
+        model = Calendar
+        fields = ("title", "start_event", "end_event", "notes")
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "form-control", "id": "title"}),
+            "notes": forms.TextInput(attrs={"class": "form-control", "id": "notes"}),
+        }
