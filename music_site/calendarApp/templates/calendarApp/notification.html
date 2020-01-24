@@ -1,0 +1,19 @@
+{% extends "music/base.html" %}
+{% load static %}
+
+{% block main %}
+<h1> Notifier</h1>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        const webSocketBridge = new channels.WebSocketBridge();
+        webSocketBridge.connect("/websocket/");
+        webSocketBridge.listen(function(action, stream){
+            console.log("RESPONSE:", action, stream);
+        })
+        document.ws = webSocketBridge;
+    })
+</script>
+{% endblock %}
+{% block jquery %}
+    <script src="{% static 'music/js/websocketbridge.js' %}"></script>
+{% endblock %}

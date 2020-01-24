@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'calendarApp',
     'sorl.thumbnail',
     'crispy_forms',
+    'channels',
     'rest_framework',
     'rest_framework.authtoken',
     'django.contrib.admin',
@@ -77,7 +78,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'music_site.wsgi.application'
-
+ASGI_APPLICATION = "calendarApp.routing.application"
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
