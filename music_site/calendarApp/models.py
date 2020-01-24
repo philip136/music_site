@@ -1,28 +1,9 @@
 from django.db import models
 from datetime import (datetime,
                       timedelta)
-from users.models import Profile
+from users.models import (Profile,
+                          Friend)
 from django.shortcuts import reverse
-
-
-class WeekDays(models.Model):
-    MO = 'MO'
-    TU = 'TU'
-    WE = 'WE'
-    TH = 'TH'
-    FR = 'FR'
-    SA = 'SA'
-    SU = 'SU'
-    weekdays = (
-        (MO, 'Monday'),
-        (TU, 'Tuesday'),
-        (WE, 'Wednesday'),
-        (TH, 'Thursday'),
-        (FR, 'Friday'),
-        (SA, 'Saturday'),
-        (SU, 'Sunday'),
-    )
-    name = models.CharField(primary_key=True, choices=weekdays, max_length=10)
 
 
 class Calendar(models.Model):
@@ -43,11 +24,6 @@ class Calendar(models.Model):
         if len(self.notes) > 20:
             return f'{self.notes[:20]}...'
         return self.notes
-
-    # setter for initial new date
-    def __setattr__(self, key, value):
-        super(Calendar, self).__setattr__(key, value)
-        self.__dict__[key] = value
 
     def __str__(self):
         return f'{self.user} - {self.notes_short}'

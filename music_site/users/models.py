@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about_me = models.TextField(blank=True)
@@ -14,22 +13,21 @@ class Profile(models.Model):
 
 
 class Friend(models.Model):
-    # show all frieds current user
-    users = models.ManyToManyField(User)
-    # current user
-    current_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner', null=True)
+    users = models.ManyToManyField(Profile)
+    current_user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner', null=True)
 
-    #Add new friend
     @classmethod
     def make_friend(cls, current_user, new_friend):
         friend, created = cls.objects.get_or_create(current_user=current_user)
         friend.users.add(new_friend)
 
-    #Remove friend from friends
     @classmethod
     def remove_friend(cls, current_user, new_friend):
         friend, created = cls.objects.get_or_create(current_user=current_user)
         friend.users.remove(new_friend)
+
+    def __str__(self):
+        return f'{self.current_user} has {self.users.count()}'
 
 
 
