@@ -78,7 +78,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'music_site.wsgi.application'
-ASGI_APPLICATION = "calendarApp.routing.application"
+ASGI_APPLICATION = "calendarApp.notifications.routing.application"
+
+# Channels
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+             "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

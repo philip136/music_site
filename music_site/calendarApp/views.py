@@ -165,6 +165,6 @@ from django.views.generic import TemplateView
 
 
 class TestViewSOCKET(TemplateView):
-    template_name = "calendarApp/notification.html"
+    template_name = "calendarApp/notifications.html"
 
 
