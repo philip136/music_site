@@ -160,11 +160,4 @@ def delete_event(request, id=None):
     return HttpResponseRedirect(reverse_lazy("calendar"))
 
 
-# --------- TEST -------------
-from django.views.generic import TemplateView
-
-
-class TestViewSOCKET(TemplateView):
-    template_name = "calendarApp/notifications.html"
-
 
