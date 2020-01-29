@@ -13,6 +13,7 @@ def announce_new_notification(sender, instance, created, **kwargs):
         current_time = datetime.now()
         # one or more days
         if instance.end_event.date() - current_time.date() >= timedelta(days=1):
+            print("success")
             channel_layer = get_channel_layer()
             days_left = instance.end_event.date() - current_time.date()
             async_to_sync(channel_layer.group_send)(
@@ -21,7 +22,6 @@ def announce_new_notification(sender, instance, created, **kwargs):
                  "type": "calendar.notifications",
                  "event": "New Notification",
                  "username": instance.user.user.username,
-                 "time_to_finish": instance.end_event.date(),
                  "message": f"{days_left} days left to complete the event {instance.title}",
                  }
             )

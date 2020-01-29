@@ -12,4 +12,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       })
       document.ws = webSocketBridge; /* for debugging */
-    })
+})

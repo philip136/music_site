@@ -3,6 +3,7 @@ from datetime import (datetime,
                       timedelta)
 from users.models import (Profile,
                           Friend)
+from django.shortcuts import reverse
 
 
 class Calendar(models.Model):
@@ -26,13 +27,6 @@ class Calendar(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.notes_short}'
-
-
-""" Создать мэнеджер который будет фильтровать событие которые заканчиваются через 3 дня и меньше,
-    ну а после запихнуть дату в div 
-"""
-
-
 
 
 
