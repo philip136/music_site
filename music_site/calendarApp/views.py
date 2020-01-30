@@ -97,6 +97,7 @@ class CalendarView(FormView):
         cal = CalendarUtil(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
         number_day = datetime.weekday(datetime.today())
+        context["notifications"] = self.model.objects.filter_events_date()
         context['calendar'] = mark_safe(html_cal)
         context["name_day"] = days_of_the_week.get(number_day)
         context["events"] = self.model.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))

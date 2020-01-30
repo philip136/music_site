@@ -11,7 +11,7 @@ class CalendarManager(models.Manager):
     def filter_events_date(self):
         new_queryset = []
         queryset = self.get_queryset()
-        difference_in_time = timedelta(days=1)
+        difference_in_time = timedelta(days=-1)
         for event in range(len(queryset)):
             if queryset[event].end_event.date() - datetime.now(tz=timezone.utc).date() >= difference_in_time:
                 new_queryset.append(queryset[event])

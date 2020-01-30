@@ -14,11 +14,6 @@ body{
   left: 390px;
 }
 
-.calendar tr, .calendar td {
-  border: none !important;
-  border-collapse: none !important;
-}
-
 .calendar th {
   padding: 10px;
   text-align: left;

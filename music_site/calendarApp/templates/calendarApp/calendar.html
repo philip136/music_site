@@ -90,7 +90,7 @@
       <!-- burger-line -->
       <div class="burger-line"></div>
       <!-- burger-line -->
-      <div class="burger-line"></div>
+      <div class="burger-line" id="notification-alert"></div>
       <!-- burger-line -->
     </div>
     <!-- hamburger -->
@@ -165,18 +165,24 @@
         </div>
       </div>
     </div>
+<!-- Modal for notifications -->
+{% include 'calendarApp/notifications.html' %}
+
+
 {% endblock %}
 
 {% block jquery %}
-    <script>
-        //show modal if date incorrect
-        {% if form_error %}
-            $("#popup").modal("show");
-            let field = document.getElementById("block_end_event");
-            field.required = true;
-        {% endif %}
-    </script>
-    <script src="{% static 'music/js/calendar_event_create.js' %}"></script>
-    <script src="{% static 'music/js/calendar_update.js' %}"></script>
+
+<script>
+    //show modal if date incorrect
+    {% if form_error %}
+        $("#popup").modal("show");
+        let field = document.getElementById("block_end_event");
+        field.required = true;
+    {% endif %}
+</script>
+<script src="{% static 'music/js/calendar_event_create.js' %}"></script>
+<script src="{% static 'music/js/calendar_update.js' %}"></script>
+<script src="{% static 'music/js/notifications.js' %}"></script>
 {% endblock %}
 
