@@ -1,14 +1,14 @@
 $(document).ready(function(){
-    var modal = $("#notifications").modal({
+    var modal_notify = $("#notifications").modal({
         show: false
     });
 
     // open modal window
     $("#notification-alert").on("click", function(){
-        $(modal).modal("show");
+        $(modal_notify).modal("show");
     });
     var message_notification = date_diff();
-    console.log(message_notification.split(" "));
+    setup_date_in_div(message_notification);
 
 });
 // for js date
@@ -45,9 +45,13 @@ var python_date = function convertDatePy(){
 };
 // difference between end_event and date now
 var date_diff = function getNewDate(){
-    let millisec_diff = python_date() - js_date();
+    millisec_diff = python_date() - js_date();
 
-    let days = Math.floor(millisec_diff/1000/60/(60*24));
+    days = Math.floor(millisec_diff/1000/60/(60*24));
     let date_diff = new Date(millisec_diff);
     return days + " Days "+ date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes";
+}
+
+var setup_date_in_div = function setupRemainingDate(date){
+    div = document.getElementById("time-to-finish").innerHTML = date;
 }

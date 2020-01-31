@@ -16,6 +16,9 @@ from django.shortcuts import (get_object_or_404,
                               render)
 from django.views.generic import UpdateView
 import json
+import mimetypes
+
+mimetypes.add_type("application/javascript", ".js", True)
 
 
 days_of_the_week = {

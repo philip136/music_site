@@ -83,19 +83,16 @@ function currentDayInit(){
 }
 
 function initModal(){
-    $(document).delegate("div.add-event", "click", function(event) {
+    // open modal
+    $(document).delegate("div", "click", function(event) {
         event.preventDefault();
         showModalEvent();
     });
+
+    // create new event
     $(document).delegate("td", "click", function(event){
         event.preventDefault();
         initNewEvent();
-    });
-    // modal for delete and update event
-    $(document).delegate(".posts", "click", function(event){
-        event.preventDefault();
-        let modal = document.getElementById("modal-all-events");
-        $(modal).modal("toggle");
     });
 };
 
@@ -123,54 +120,57 @@ function getAllEvents(event){
     }
 }
 
-function setupDate(event){
+// Setup date for event-start date
+function setupDate(){
     var month_and_year = $(".month").text()
     var monthName = month_and_year.split(" ")[0];
     var monthNumber = monthDictionary[monthName];
     var year = month_and_year.split(" ")[1];
     var day = $("div.num-date").text();
     var date = new Date();
-    var time = date.getHours() + ":" + date.getMinutes();
+    var hour = new String(date.getHours());
+    var minute = new String(date.getMinutes());
+    if (hour.length < 2){hour = "0" + hour}
+    if (minute.length < 2){minute = "0" + minute}
+
     if (day < 10){
-        date = year + "-" + monthNumber + "-0" + day + "T" + time;
+        date = year + "-" + monthNumber + "-0" + day + "T" + hour + ":" + minute;
     }
     else if (day > 10){
-        date = year + "-" + monthNumber + "-" + day + "T" + time;
+        date = year + "-" + monthNumber + "-" + day + "T" + hour + ":" + minute;
     }
     return date;
 };
 
 function showModalEvent(){
     let modal = document.getElementById("popup");
-    $("div.add-event").click(function(event){
+    let setDate = setupDate();
+    setStartEvent = document.getElementById("block-start");
+    let date_start = setStartEvent.querySelector("input[name='start_event']");
+    date_start.defaultValue = setDate;
+    $(".add-event").click(function(event){
        event.preventDefault();
-       let setDate = setupDate(event);
-       let setStartEvent = document.getElementById("start_event");
-       setStartEvent.defaultValue = setDate;
-       $(modal).modal("toggle");
+       $(modal).modal("show");
        $("#post-form").on("submit", function(){
-            create_event(setStartEvent);
+            create_event();
         });
     });
-    $("div.create-event").click(function(event){
+    $(".create-event").click(function(event){
        event.preventDefault();
-       let setDate = setupDate(event);
-       let setStartEvent = document.getElementById("start_event");
-       setStartEvent.defaultValue = setDate;
-       $(modal).modal("toggle");
+       $(modal).modal("show");
        $("#post-form").on("submit", function(){
-            create_event(setStartEvent);
+            create_event();
         });
     });
 };
 
-function create_event(start_time){
+function create_event(){
     console.log("create event");
     $.ajax({
         type: "POST",
         data: {
             'title': $("#title").val(),
-            'start_event': document.getElementById("start_event").defaultValue,
+            'start_event': $("#start_event").val(),
             'end_event': $("#end_event").val(),
             'notes': $("#notes").val(),
             'user': $("#user").val(),

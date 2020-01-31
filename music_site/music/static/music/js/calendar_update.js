@@ -1,57 +1,26 @@
 $(document).ready(function(){
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-
-    var csrftoken = $('[name=csrfmiddlewaretoken]').val();
-
-    function csrfSafeMethod(method) {
-        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    function sameOrigin(url) {
-        var host = document.location.host; // host + port
-        var protocol = document.location.protocol;
-        var sr_origin = '//' + host;
-        var origin = protocol + sr_origin;
-        return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-            (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
-            !(/^(\/\/|http:|https:).*/.test(url));
-    }
-
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
-            }
-        }
-    });
-    // delegate
     initModalEventEdit();
 });
 
 function initModalEventEdit(){
-    $(document).delegate("#event-edit", "click", function(event) {
+    $(document).delegate("span", "click", function(event) {
         event.preventDefault();
-        showModalEvent();
+        showModalEventEdit();
     });
 };
 
-function showModalEvent(){
-    let modal = document.getElementById("popup-for-edit");
-    $(modal).modal("show");
+function showModalEventEdit(){
+    let modal_edit = document.getElementById("modal-all-events");
     let form = document.getElementById("event-form-edit");
+    // page with delete and edit buttons
+    $(".posts").on("click", function(){
+        $(modal_edit).modal("show");
+        let btn_edit = document.querySelector("button#event-edit.btn.btn-success");
+        $(btn_edit).on("click", function(){
+            let modal_edit_event = document.getElementById("popup-for-edit");
+            $(modal_edit_event).modal("show");
+        });
+    });
     // get all old fields value from button
     let title = document.getElementById("event-edit").getAttribute("data-title")
     let start_event = document.getElementById("event-edit").getAttribute("data-start");
