@@ -39,7 +39,7 @@
                 <div class="clearfix"></div>
                 <ul id="playlist">
                     {% for song in favourite_songs %}
-                            <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ song.album.author_album }}"
+                            <li path="{% static 'music/'%}uploads/" song="{{song}}.mp3" artist="{{ song.album.author_album }}"
                             album-image="{{ song.album.image_album.url }}">
                                 {{ song.name_song }}
                             </li>
