@@ -15,6 +15,7 @@ from rest_framework import serializers
 from django.shortcuts import (get_object_or_404,
                               render)
 from django.views.generic import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 
@@ -35,7 +36,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CalendarView(FormView):
+class CalendarView(LoginRequiredMixin, FormView):
     model = Calendar
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
@@ -106,7 +107,7 @@ class CalendarView(FormView):
         return context
 
 
-class EventUpdate(UpdateView):
+class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Calendar
     form_class = EventFormUpdate
     success_url = reverse_lazy("music:home")

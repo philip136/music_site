@@ -89,6 +89,7 @@ class SongsAlbum(models.Model):
 
     def __str__(self):
         full_name_song = (self.album.author_album + "_-_" + self.name_song).replace(" ","_")
+
         return full_name_song
 
 
