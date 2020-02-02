@@ -37,11 +37,65 @@ $(document).ready(function(){
             }
         }
     });
+    showEventOnCalendar();
+    
     // init day
     currentDayInit();
     // delegate
     initModal();
 });
+
+function* generatForEvents(count_events){
+    for (let i=0; i<count_events.length; i++){
+        yield count_events[i];
+    }
+}
+
+// In here fill td elem if he exist event
+function showEventOnCalendar(){
+    let data_events = document.querySelectorAll("#event-edit");
+    let count = 0;
+    let generator = generatForEvents(data_events);
+    elem = generator.next().value;
+    data_title = elem.getAttribute("data-title");
+    data_start = elem.getAttribute("data-start");
+    data_end = elem.getAttribute("data-end").split(" ");
+    data_notes = elem.getAttribute("data-notes");
+    month = data_end[0].slice(0,3);
+    day = data_end[1].slice(0,1);
+    for (let size=0; size < data_events.length; size++){
+        if (document.querySelector("th.month").innerText.slice(0,3) == month){
+            td_elem = document.querySelectorAll("#event-field");
+            search_text = day;
+            let td_found = new Array();
+            for (let i=0; i < td_elem.length; i++){
+                if (td_elem[i].innerText == search_text){
+                    td_found.push(td_elem[i]);
+                }
+            }
+            for (let e = 0; e < td_found.length; e++){
+                td_found[e].style.backgroundColor = "#2ECC71";
+                td_found[e].style.color = "white";
+                td_found[e].style.fontSize = "20px";
+                td_found[e].style.align = "center";
+                info_date = document.querySelector("#event-info-date");
+                li_elem = document.createElement("li");
+                li_elem.innerText = data_title + " - " + data_notes;
+                info_date.appendChild(li_elem);
+                count ++;
+            }
+        }
+        if (count < data_events.length){
+            elem = generator.next().value;
+            data_title = elem.getAttribute("data-title");
+            data_start = elem.getAttribute("data-start");
+            data_end = elem.getAttribute("data-end").split(" ");
+            data_notes = elem.getAttribute("data-notes");
+            month = data_end[0].slice(0,3);
+            day = data_end[1].slice(0,1);
+        }
+    }
+}
 
 var monthDictionary = {
     "January": "01",
@@ -95,6 +149,7 @@ function initModal(){
         initNewEvent();
     });
 };
+
 
 // Initialization new event after click number on calendar
 function initNewEvent(){
