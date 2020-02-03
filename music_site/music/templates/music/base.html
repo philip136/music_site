@@ -25,15 +25,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'music:top_album' %}">Top Album</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Genre
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="{% url 'music:rap' %}">Rap</a>
-          <a class="dropdown-item" href="{% url 'music:rock' %}">Rock</a>
-        </div>
-      </li>
+      
       {% if user.is_authenticated %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

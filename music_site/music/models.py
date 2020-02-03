@@ -29,12 +29,6 @@ class AlbumManager(models.Manager):
         queryset = queryset[:limit]
         return queryset
 
-    def classification(self,genre_name):
-        queryset = self.get_queryset()
-        queryset = queryset.filter(genre=genre_name)
-        queryset = queryset.order_by('-release_date')
-        return queryset
-
 
 class Album(models.Model):
     NOT_RATED = 0
@@ -88,7 +82,8 @@ class SongsAlbum(models.Model):
     favourite = models.ManyToManyField(User, related_name='favourite', blank=True)
 
     def __str__(self):
-        return self.name_song
+        full_name_song = (self.album.author_album + "_-_" + self.name_song).replace(" ","_")
+        return full_name_song
 
     def get_absolute_url(self):
         return reverse("music:SongAlbum", args=[self.album.id])

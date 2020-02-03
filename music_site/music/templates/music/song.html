@@ -92,7 +92,7 @@
                 <ul id="playlist">
                     {% for song in songs %}
                         {% if song.album.id == album_id.id %}
-                            <li path="{% static 'music/'%}uploads/{{song.name_song.url}}" song="{{song.name_song}}.mp3" artist="{{ album.author_album }}" album-image="{{ album.image_album.url }}">
+                            <li path="{% static 'music/uploads/' %}" song="{{song}}.mp3" artist="{{ album.author_album }}" album-image="{{ album.image_album.url }}">
                                 {{ song.name_song }}
                                 {% if is_favourite %}
                                     <a href="{% url 'music:favourite' pk=song.id %}">

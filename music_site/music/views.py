@@ -72,19 +72,6 @@ class TopAlbum(CachePageVaryOnCookieMixin, ListView):
         return queryset
 
 
-
-class Categories(CachePageVaryOnCookieMixin,ListView):
-    model = Album
-    template_name = 'music/categories.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['Rap'] = self.model.objects.classification('Rap')
-        context['Rock'] = self.model.objects.classification('Rock')
-        return context
-
-
-
 class SongAlbum(DetailView):
     queryset = Album.objects.all_with_related_persons_and_score()
     template_name = 'music/song.html'
