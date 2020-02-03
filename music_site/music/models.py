@@ -83,7 +83,13 @@ class SongsAlbum(models.Model):
 
     def __str__(self):
         full_name_song = (self.album.author_album + "_-_" + self.name_song).replace(" ","_")
+<<<<<<< HEAD
         return full_name_song
+=======
+
+        return full_name_song
+
+>>>>>>> master
 
     def get_absolute_url(self):
         return reverse("music:SongAlbum", args=[self.album.id])
