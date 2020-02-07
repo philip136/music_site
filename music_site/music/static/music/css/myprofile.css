@@ -1,5 +1,5 @@
 body{
-    background: url(../image/background.png) no-repeat;
+    background-image: url("../image/image.jpg");
 }
 
 .content-section{
@@ -23,7 +23,7 @@ body{
 }
 
 .info-profile{
-    text margin-left: 10px;
+    margin-left: 10px;
     width: 400px;
     height: 500px;
     margin: auto;

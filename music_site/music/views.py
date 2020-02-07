@@ -9,7 +9,8 @@ from .models import (Album,
                      SongsAlbum,
                      Vote,
                      Comments)
-from django.http import HttpResponseRedirect
+from django.http import (HttpResponseRedirect,
+                         HttpResponse)
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
@@ -175,9 +176,14 @@ def favourite_list(request):
     user = request.user
     favourite_songs = user.favourite.all()
     album_id = Album.objects.all()
-    context = {'favourite_songs': favourite_songs,
-               'album_id': album_id}
-    return render(request, 'users/favourite.html', context)
+    if len(favourite_songs) > 0:
+        context = {'favourite_songs': favourite_songs,
+                'album_id': album_id}
+        return render(request, 'users/favourite.html', context)
+    else:
+        return HttpResponse("You don't have favourite music")
+
+    
 
 
 

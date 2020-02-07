@@ -9,7 +9,13 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username','email','password1','password2']
+        fields = ['first_name',
+                  'last_name',
+                  'username',
+                  'email',
+                  'password1',
+                  'password2',
+                  ]
 
     def __init__(self, *args, **kwargs):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
@@ -19,11 +25,10 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField()
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username',]
 
 
 class ProfileUpdateForm(forms.ModelForm):

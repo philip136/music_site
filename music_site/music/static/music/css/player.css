@@ -6,7 +6,7 @@
 }
 
 body{
-    color: white
+    color: white;
     height:100%;
     background-color:#000;
 }
@@ -81,7 +81,7 @@ input#volume::-webkit-slider-thumb{
 }
 
 #audio-buttons{
-    width: 90%
+    width: 90%;
     display:block;
     margin:15px auto;
     margin-left: 25px;
@@ -163,6 +163,7 @@ button#next{
     padding:4px 8px;
     background:#000;
     border-radius:5px;
+    color: white;
 }
 
 #tracker{

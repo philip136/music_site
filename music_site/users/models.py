@@ -4,9 +4,17 @@ from sorl.thumbnail import ImageField
 
 
 class Profile(models.Model):
+    Male = "Mal"
+    Female = "Fem"
+    gender_choice = [
+        (Male, "Male"),
+        (Female, "Female"),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about_me = models.TextField(blank=True)
     avatar = ImageField(upload_to='avatars', default='default.png')
+    birthday = models.DateField()
+    gender = models.CharField(max_length=3,choices=gender_choice)
 
     def __str__(self):
         return '{} Profile'.format(self.user.username)
