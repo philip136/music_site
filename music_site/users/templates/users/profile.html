@@ -13,11 +13,13 @@
         <div class="col">
             <div class="content-section">
                 <div class="media">
-                    {% if user.profile.avatar == 'default.png' and user.profile.gender == 'Mal' %}
+                    {% if user.profile.avatar != 'default.png' %}
+                        <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="auto">
+                    {% elif user.profile.gender == "Mal" %}
                         <img class="rounded-circle account-img"  src="{% static 'music/image/avatar.png' %}" width="300px;" height="auto">
-                    {% elif user.profile.avatar == 'default.png' and user.profile.gender == 'Fem' %}
-                         <img class="rounded-circle account-img"  src="{{ user.profile.avatar.url }}" width="300px;" height="300px">
-                    {% endif %}
+                    {% elif user.profile.gender == "Fem" %}
+                        <img class="rounded-circle account-img"  src="{% static 'music/image/avatar_female.png' %}" width="300px;" height="auto">
+                    {% endif %} 
                 </div>
                 <div class="media-body">
                         <h2 class="account-hedding">

@@ -6,7 +6,8 @@ from .forms import (UserRegisterForm,
                     ProfileUpdateForm)
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import Friend
+from .models import (Friend,
+                    Profile)
 
 
 
@@ -14,8 +15,13 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
             username = form.cleaned_data.get('username')
+            gender_field = form.cleaned_data['gender']
+            form.save()
+            user = User.objects.get(username=username)
+            profile = Profile.objects.get(user=user)
+            profile.gender = gender_field
+            profile.save()
             messages.success(request, f'Your account has been created {username}!')
             return redirect('users:login')
     else:

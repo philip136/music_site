@@ -13,7 +13,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     about_me = models.TextField(blank=True)
     avatar = ImageField(upload_to='avatars', default='default.png')
-    birthday = models.DateField()
+    birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=3,choices=gender_choice)
 
     def __str__(self):

@@ -5,7 +5,14 @@ from .models import Profile
 
 
 class UserRegisterForm(UserCreationForm):
+    Male = "Mal"
+    Female = "Fem"
+    gender_choice = [
+        (Male, "Male"),
+        (Female, "Female"),
+    ]
     email = forms.EmailField()
+    gender = forms.ChoiceField(choices=gender_choice) 
 
     class Meta:
         model = User
@@ -13,6 +20,7 @@ class UserRegisterForm(UserCreationForm):
                   'last_name',
                   'username',
                   'email',
+                  'gender',
                   'password1',
                   'password2',
                   ]
