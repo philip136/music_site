@@ -37,11 +37,24 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username',]
+        help_texts = {
+            "username": None,
+        }
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control", "required": "false"})
+        }
 
 
 class ProfileUpdateForm(forms.ModelForm):
+
     class Meta:
         model = Profile
-        fields = ['avatar']
+        fields = ['avatar',]
+        help_texts = {
+            "username": None,
+        }
+        widgets = {
+            "avatar": forms.FileInput(attrs={"class": "form-control", "required": "false"})
+        }
 
 
