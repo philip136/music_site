@@ -4,6 +4,7 @@ from .views import (CalendarView,
                     EventUpdate,
                     )
 
+app_name = "calendarApp"
 urlpatterns = [
     path('calendar/', CalendarView.as_view(), name='calendar'),
     path('calendar/event-delete/<int:id>', delete_event, name='event-delete'),
