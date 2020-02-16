@@ -34,14 +34,21 @@ var js_date = function convertDateJs(){
 
 // for python date
 var python_date = function convertDatePy(){
-    date = document.getElementById("time-to-finish").getAttribute("data-notify").trim();
-    month = months[date.split(" ")[0].slice(0,3)];
-    digit = date.split(" ")[1].slice(0,2);
-    year = date.split(" ")[2].slice(0,4);
-    hour = (date.split(" ")[3]).split(":")[0]
-    minute = (date.split(" ")[3]).split(":")[1]
-    let python_date = new Date(year,month,digit,hour,minute);
-    return python_date;
+    try{
+        date = document.getElementById("time-to-finish").getAttribute("data-notify").trim();
+        month = months[date.split(" ")[0].slice(0,3)];
+        digit = date.split(" ")[1].slice(0,2);
+        year = date.split(" ")[2].slice(0,4);
+        hour = (date.split(" ")[3]).split(":")[0]
+        minute = (date.split(" ")[3]).split(":")[1]
+        let python_date = new Date(year,month,digit,hour,minute);
+        return python_date;
+    }
+    catch(exception){
+        if (exception instanceof TypeError){
+            return new Date();
+        }
+    }
 };
 // difference between end_event and date now
 var date_diff = function getNewDate(){
@@ -53,5 +60,14 @@ var date_diff = function getNewDate(){
 }
 
 var setup_date_in_div = function setupRemainingDate(date){
-    div = document.getElementById("time-to-finish").innerHTML = date;
+    try{
+        div = document.getElementById("time-to-finish").innerHTML = date;
+    }
+    catch(exception){
+        if (exception instanceof TypeError){
+            let selector = document.querySelector("#notifications");
+            let title = selector.querySelector(".modal-title")
+            title.innerHTML = "Notification (events dont find)";
+        }
+    }
 }

@@ -27,6 +27,7 @@ function initAudio(element){
 
     // Create Audio
     audio = new Audio(full_path + song);
+    
     audio.volume = default_volume;
 
     $('#audio-img img').attr('src', image_album);

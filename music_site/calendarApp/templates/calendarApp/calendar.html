@@ -102,10 +102,7 @@
     <!--day -->
     <div class="current-events">Current Events
       <br/>
-      <ul>
-            {% for e in events|slice:":3" %}
-            <li> {{ e.title }} - {{ e.notes }}</li>
-          {% endfor %}
+      <ul id="event-info-date">
       </ul>
         <span class="posts">
             See post events <b class="count-events">({{ events.count }})</b>

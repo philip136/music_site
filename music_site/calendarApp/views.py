@@ -15,6 +15,7 @@ from rest_framework import serializers
 from django.shortcuts import (get_object_or_404,
                               render)
 from django.views.generic import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 
@@ -35,7 +36,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class CalendarView(FormView):
+class CalendarView(LoginRequiredMixin, FormView):
     model = Calendar
     form_class = EventForm
     template_name = "calendarApp/calendar.html"
@@ -97,7 +98,8 @@ class CalendarView(FormView):
         cal = CalendarUtil(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
         number_day = datetime.weekday(datetime.today())
-        context["notifications"] = self.model.objects.filter_events_date()
+        context["notifications"] = self.model.objects.filter_events_date(
+            Profile.objects.get(user=self.request.user))
         context['calendar'] = mark_safe(html_cal)
         context["name_day"] = days_of_the_week.get(number_day)
         context["events"] = self.model.objects.filter(user=Profile.objects.get(user=User.objects.get(id=self.request.user.id)))
@@ -105,7 +107,7 @@ class CalendarView(FormView):
         return context
 
 
-class EventUpdate(UpdateView):
+class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Calendar
     form_class = EventFormUpdate
     success_url = reverse_lazy("music:home")
@@ -117,13 +119,10 @@ class EventUpdate(UpdateView):
         return super(EventUpdate, self).get_object(queryset)
 
     def post(self, request, *args, **kwargs):
-        print("q  w e r t y")
         event = self.model.objects.get(pk=self.get_object().pk)
         event.user = Profile.objects.get(user=request.user)
         form = self.form_class(self.request.POST, instance=event)
-        print(form.errors)
         if form.is_valid():
-            print("form is valid")
             form.save()
             return HttpResponseRedirect(self.success_url)
         context = super(EventUpdate, self).get_context_data(**kwargs)
