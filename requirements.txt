@@ -1,7 +1,7 @@
 astroid==2.3.3
 certifi==2019.6.16
 chardet==3.0.4
-Django==2.2.8
+Django==2.2.10
 django-cors-headers==3.2.1
 django-crispy-forms==1.7.2
 django-filebrowser==3.11.1
